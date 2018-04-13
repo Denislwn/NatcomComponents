@@ -1,3 +1,5 @@
+import NavLink from "react-router-dom/es/NavLink";
+
 export default class extends React.Component {
 
     constructor(props) {
@@ -18,11 +20,11 @@ export default class extends React.Component {
         let {supplier} = this.props;
         supplier = this.checkFields(supplier);
         return (
-            <div>
+            <NavLink to={`/suppliers/${supplier.id}`}>
                 <div>{supplier.name}</div>
                 <div>{supplier.inn}</div>
                 <div>{supplier.comment}</div>
-            </div>
+            </NavLink>
         )
     }
 }

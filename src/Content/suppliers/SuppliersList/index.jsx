@@ -33,7 +33,6 @@ export default class extends React.Component {
         this.setState({
             suppliersList: this.state.suppliersList
         });
-        console.log(<li key={supplier.id}><Supplier supplier={supplier}/></li>);
     };
 
     ready() {
