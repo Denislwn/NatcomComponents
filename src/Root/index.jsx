@@ -1,12 +1,8 @@
-import {Switch, Route} from "react-router-dom"
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import {Main} from "../components/main";
-import {Login} from "../components/login"
-import {Stocks} from "../components/stocks/StocksList/index";
-import Link from "react-router-dom/es/Link";
-import {Content} from "../components/content";
-import {Header} from "../components/header";
+import Header from "../Header";
+import Content from "../Content"
+
 
 export default class extends React.Component {
     render() {

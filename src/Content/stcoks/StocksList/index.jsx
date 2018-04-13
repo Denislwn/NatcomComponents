@@ -1,6 +1,6 @@
 import {BaseApi} from "../../../services/base";
-import Stock from "../Stock"
-import AddNewStock from "../AddNewStock"
+import Stock from "../Stock/index"
+import AddNewStock from "../AddNewStock/index"
 
 export default class extends React.Component {
     baseApi = new BaseApi();
@@ -27,8 +27,6 @@ export default class extends React.Component {
     }
 
     addNewStock = (stock) => {
-        console.log(stock);
-        console.log(this.state.stocks);
         this.stocksList.push(<li key={stock.id}><Stock stock={stock}/></li>);
         this.setState({stocks: this.state.stocks.push(stock)});
     };

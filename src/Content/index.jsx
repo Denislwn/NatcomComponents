@@ -1,10 +1,11 @@
-import {Main} from "./main";
-import {Login} from "./login";
-import StocksList from "./stocks/StocksList";
 import Switch from "react-router-dom/es/Switch";
 import Route from "react-router-dom/es/Route";
 
-export class Content extends React.Component {
+import Main from "./Main";
+import Login from "./Login";
+import StocksList from "./stcoks/StocksList/index";
+
+export default class extends React.Component {
 
     constructor(props) {
         super(props);

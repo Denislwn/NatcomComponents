@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export class Login extends React.Component {
+export default class extends React.Component {
 
     constructor(props) {
         super(props);
