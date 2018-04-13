@@ -1,5 +1,6 @@
 import {BaseApi} from "../../../services/base";
 import Supplier from "../Supplier"
+import AddNewSupplier from "../AddNewSupplier";
 
 export default class extends React.Component {
     suppliers;
@@ -25,6 +26,16 @@ export default class extends React.Component {
             })
     }
 
+    addNewSupplier = (supplier) => {
+        this.suppliers.push(supplier);
+        const temp =  <li key={supplier.id}><Supplier supplier={supplier}/></li>;
+        this.state.suppliersList.push(temp);
+        this.setState({
+            suppliersList: this.state.suppliersList
+        });
+        console.log(<li key={supplier.id}><Supplier supplier={supplier}/></li>);
+    };
+
     ready() {
         if (this.state.suppliersList) {
             return true;
@@ -37,9 +48,14 @@ export default class extends React.Component {
             return false
         }
         return (
-            <ul>
-                {this.state.suppliersList}
-            </ul>
+            <div>
+                <ul>
+                    {this.state.suppliersList}
+                </ul>
+                <div>
+                    <AddNewSupplier addNewSupplier={this.addNewSupplier}/>
+                </div>
+            </div>
         )
     }
 }
