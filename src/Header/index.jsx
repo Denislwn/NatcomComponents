@@ -1,4 +1,4 @@
-import Link from "react-router-dom/es/Link";
+import NavLink from "react-router-dom/es/NavLink";
 
 export default class extends React.Component {
     constructor(props) {
@@ -11,16 +11,16 @@ export default class extends React.Component {
             <header>
                 <ul className="nav flex-column">
                     <li className="nav-item">
-                        <Link to='/stocks' className="nav-link active">Склады</Link>
+                        <NavLink to='/stocks' activeClassName="active" className="nav-link active">Склады</NavLink>
                     </li>
                     <li className="nav-item">
-                        <Link to='/login' className="nav-link active">Login</Link>
+                        <NavLink to='/login' className="nav-link active">Login</NavLink>
                     </li>
                     <li className="nav-item">
-                        <Link to='/login' className="nav-link active">Active</Link>
+                        <NavLink to='/suppliers' className="nav-link active">Поставщики</NavLink>
                     </li>
                     <li className="nav-item">
-                        <Link to='/login' className="nav-link active">Active</Link>
+                        <NavLink to='/login' className="nav-link active">Active</NavLink>
                     </li>
                 </ul>
             </header>
