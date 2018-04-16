@@ -8,7 +8,7 @@ export default class extends React.Component {
     stocksList;
     state = {
         stocks: [],
-        hasMore: true,
+        hasMoreStocks: true,
     };
 
     constructor(props) {
@@ -20,9 +20,8 @@ export default class extends React.Component {
         this.baseApi.get(`stocks/`)
             .then(res => {
                 if (res.data.next === null) {
-                    this.setState({hasMore: false});
+                    this.setState({hasMoreStocks: false});
                 }
-                console.log(res.data);
                 this.stocksList = res.data.results.map(stock =>
                     <li key={stock.id}><Stock stock={stock}/></li>
                 );
@@ -38,16 +37,16 @@ export default class extends React.Component {
 
     loadStocks(page) {
         const self = this;
-        this.setState({hasMore: false});
+        this.setState({hasMoreStocks: false});
         self.baseApi.get(`stocks/?page=${page}`)
             .then(res => {
-                this.stocksList = this.stocksList.concat(res.data.results.map(stock =>
+                self.stocksList = self.stocksList.concat(res.data.results.map(stock =>
                     <li key={stock.id}><Stock stock={stock}/></li>
                 ));
-                const temp = this.state.stocks.concat(res.data.results);
-                this.setState({stocks: temp});
+                const temp = self.state.stocks.concat(res.data.results);
+                self.setState({stocks: temp});
                 if (res.data.next !== null) {
-                    this.setState({hasMore: true});
+                    self.setState({hasMoreStocks: true});
                 }
             });
     }
@@ -67,8 +66,7 @@ export default class extends React.Component {
             <InfiniteScroll
                 pageStart={1}
                 loadMore={this.loadStocks.bind(this)}
-                hasMore={this.state.hasMore}
-                loader={<div className="loader" key={0}>Loading ...</div>}
+                hasMore={this.state.hasMoreStocks}
             >
                 <div>
                     <AddNewStock addNewStock={this.addNewStock}/>
