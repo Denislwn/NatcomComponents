@@ -9,7 +9,7 @@ export default class extends React.Component {
     render() {
         let {category} = this.props;
         return (
-            <NavLink to={`/suppliers/${category.id}`}>
+            <NavLink to={`/categories/${category.id}`}>
                 <div>{category.name}</div>
             </NavLink>
         )
