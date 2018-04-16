@@ -6,6 +6,7 @@ import Login from "./Login";
 import StocksList from "./stcoks/StocksList";
 import SuppliersList from "./suppliers/SuppliersList";
 import SupplierDetail from "./suppliers/SupplierDetail";
+import CategoriesList from "./categories/CategoriesList"
 
 export default class extends React.Component {
 
@@ -23,6 +24,7 @@ export default class extends React.Component {
                 <Route path='/stocks' component={StocksList}/>
                 <Route path='/suppliers/:suppliersId' component={SupplierDetail}/>
                 <Route path='/suppliers' component={SuppliersList}/>
+                <Route path='/categories' component={CategoriesList}/>
             </Switch>
         </main>)
     }

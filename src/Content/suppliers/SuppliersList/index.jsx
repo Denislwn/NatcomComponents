@@ -36,7 +36,7 @@ export default class extends React.Component {
     };
 
     ready() {
-        if (this.state.suppliersList) {
+        if (this.state.suppliersList.length !== 0) {
             return true;
         }
         return false;
