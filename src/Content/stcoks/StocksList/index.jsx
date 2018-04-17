@@ -9,6 +9,7 @@ export default class extends React.Component {
     state = {
         stocks: [],
         hasMoreStocks: true,
+        newStock: {visibility: false, message: 'Добавить склад'},
     };
 
     constructor(props) {
@@ -51,6 +52,16 @@ export default class extends React.Component {
             });
     }
 
+    newStock() {
+        if (!this.state.newStock.visibility) {
+            this.state.newStock =  {visibility: true, message: 'Удалить'};
+            this.setState({newStock: this.state.newStock})
+        } else {
+            this.state.newStock =  {visibility: false, message: 'Добавить склад'};
+            this.setState({newStock: this.state.newStock})
+        }
+    }
+
     ready() {
         if (this.state.stocks.length !== 0) {
             return true;
@@ -62,6 +73,12 @@ export default class extends React.Component {
         if (!this.ready()) {
             return false
         }
+        let newStock;
+        if (this.state.newStock.visibility) {
+            newStock = <AddNewStock addNewStock={this.addNewStock}/>;
+        } else {
+            newStock = null;
+        }
         return (
             <InfiniteScroll
                 pageStart={1}
@@ -69,7 +86,8 @@ export default class extends React.Component {
                 hasMore={this.state.hasMoreStocks}
             >
                 <div>
-                    <AddNewStock addNewStock={this.addNewStock}/>
+                    <span onClick={this.newStock.bind(this)}>{this.state.newStock.message}</span>
+                    {newStock}
                     <div>{this.stocksList}</div>
                 </div>
             </InfiniteScroll>
