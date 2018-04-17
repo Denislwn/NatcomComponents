@@ -43,29 +43,27 @@ export default class extends React.Component {
         return false;
     }
 
-    newCategory() {
+    newCategory = () => {
         if (!this.state.newCategory.visibility) {
             this.state.newCategory = {visibility: true, message: 'Удалить'};
         } else {
             this.state.newCategory = {visibility: false, message: 'Добавить категорию'};
         }
         this.setState({newCategory: this.state.newCategory})
-    }
+    };
 
     render() {
         if (!this.ready()) {
             return false
         }
-        let newCategory;
+        let newCategory = null;
         if (this.state.newCategory.visibility) {
             newCategory = <AddNewCategory addNewCategory={this.addNewCategory}/>
-        } else {
-            newCategory = null;
         }
         return (
             <div>
                 <div>
-                    <span onClick={this.newCategory.bind(this)}>{this.state.newCategory.message}</span>
+                    <span onClick={this.newCategory}>{this.state.newCategory.message}</span>
                     {newCategory}
                 </div>
                 <ul>

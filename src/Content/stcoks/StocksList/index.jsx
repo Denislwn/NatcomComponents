@@ -52,14 +52,14 @@ export default class extends React.Component {
             });
     }
 
-    newStock() {
+    newStock = () => {
         if (!this.state.newStock.visibility) {
             this.state.newStock =  {visibility: true, message: 'Удалить'};
         } else {
             this.state.newStock =  {visibility: false, message: 'Добавить склад'};
         }
         this.setState({newStock: this.state.newStock})
-    }
+    };
 
     ready() {
         if (this.state.stocks.length !== 0) {
@@ -72,11 +72,9 @@ export default class extends React.Component {
         if (!this.ready()) {
             return false
         }
-        let newStock;
+        let newStock = null;
         if (this.state.newStock.visibility) {
             newStock = <AddNewStock addNewStock={this.addNewStock}/>;
-        } else {
-            newStock = null;
         }
         return (
             <InfiniteScroll
@@ -85,7 +83,7 @@ export default class extends React.Component {
                 hasMore={this.state.hasMoreStocks}
             >
                 <div>
-                    <span onClick={this.newStock.bind(this)}>{this.state.newStock.message}</span>
+                    <span onClick={this.newStock}>{this.state.newStock.message}</span>
                     {newStock}
                     <div>{this.stocksList}</div>
                 </div>

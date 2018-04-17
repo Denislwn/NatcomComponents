@@ -8,7 +8,8 @@ export default class extends React.Component {
     suppliers;
     state = {
         suppliersList: [],
-        hasMoreSuppliers: true
+        hasMoreSuppliers: true,
+        newSupplier: {visibility: false, message: 'Добавить поставщика'},
     };
 
     constructor(props) {
@@ -66,9 +67,22 @@ export default class extends React.Component {
         return false;
     }
 
+    newSupplier = () => {
+        if (!this.state.newSupplier.visibility) {
+            this.state.newSupplier = {visibility: true, message: 'Удалить'};
+        } else {
+            this.state.newSupplier = {visibility: false, message: 'Добавить поставщика'};
+        }
+        this.setState({newSupplier: this.state.newSupplier})
+    };
+
     render() {
         if (!this.ready()) {
             return false
+        }
+        let newSupplier = null;
+        if (this.state.newSupplier.visibility) {
+            newSupplier = <AddNewSupplier addNewSupplier={this.addNewSupplier}/>;
         }
         return (
             <InfiniteScroll
@@ -77,12 +91,13 @@ export default class extends React.Component {
                 hasMore={this.state.hasMoreSuppliers}
             >
                 <div>
+                    <div>
+                        <span onClick={this.newSupplier}>{this.state.newSupplier.message}</span>
+                        {newSupplier}
+                    </div>
                     <ul>
                         {this.state.suppliersList}
                     </ul>
-                    <div>
-                        <AddNewSupplier addNewSupplier={this.addNewSupplier}/>
-                    </div>
                 </div>
             </InfiniteScroll>
         )
