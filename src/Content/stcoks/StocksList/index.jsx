@@ -55,11 +55,10 @@ export default class extends React.Component {
     newStock() {
         if (!this.state.newStock.visibility) {
             this.state.newStock =  {visibility: true, message: 'Удалить'};
-            this.setState({newStock: this.state.newStock})
         } else {
             this.state.newStock =  {visibility: false, message: 'Добавить склад'};
-            this.setState({newStock: this.state.newStock})
         }
+        this.setState({newStock: this.state.newStock})
     }
 
     ready() {
