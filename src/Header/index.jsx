@@ -11,17 +11,21 @@ export default class extends React.Component {
         return (
             <header>
                 <ul className="nav flex-column">
-                    <li className={["nav-item", styles.active].join(' ')}>
-                        <NavLink to='/stocks' activeClassName="active" className="nav-link">Склады</NavLink>
+                    <li className="nav-item">
+                        <NavLink to='/stocks' activeClassName={styles.active}
+                                 className="nav-link">Склады</NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink to='/login' className="nav-link active">Login</NavLink>
+                        <NavLink to='/login' activeClassName={styles.active}
+                                 className="nav-link active">Login</NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink to='/suppliers' className="nav-link active">Поставщики</NavLink>
+                        <NavLink to='/suppliers' activeClassName={styles.active}
+                                 className="nav-link active">Поставщики</NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink to='/categories' className="nav-link active">Категории</NavLink>
+                        <NavLink to='/categories' activeClassName={styles.active}
+                                 className="nav-link active">Категории</NavLink>
                     </li>
                 </ul>
             </header>

@@ -3,34 +3,36 @@ import {BaseApi} from "../../../../services/base";
 export default class extends React.Component {
 
     state = {
-        categoryName: '',
+        subcategoryName: '',
     };
 
     constructor(props) {
         super(props)
     }
 
-    handleChangeCategoryName = event => {
-        this.setState({categoryName: event.target.value});
+    handleChangeSubcategoryName = event => {
+        this.setState({subcategoryName: event.target.value});
     };
 
     handleSubmit = event => {
         event.preventDefault();
+        const id = this.props.categoryId;
         const baseApi = new BaseApi();
         let newCategory = {
-            name: this.state.categoryName,
+            name: this.state.subcategoryName,
         };
-        baseApi.post(`categories/`, newCategory)
+        baseApi.post(`categories/${id}/subcategories/`, newCategory)
             .then(res => {
-                this.handleCategoryChange(res.data);
+                console.log(res.data);
+                this.handleChange(res.data);
             }, err => {
                 console.log(err);
             })
 
     };
 
-    handleCategoryChange = (category) => {
-        this.props.addNewCategory(category);
+    handleChange = (subcategory) => {
+        this.props.addNewSubcategory(subcategory);
     };
 
     render() {
@@ -38,7 +40,8 @@ export default class extends React.Component {
             <form onSubmit={this.handleSubmit}>
                 <div>
                     <label>Название категории</label>
-                    <input type="text" name="categoryName" onChange={this.handleChangeCategoryName}/>
+                    <input type="text"
+                           onChange={this.handleChangeSubcategoryName}/>
                 </div>
                 <button type="submit">Добавить</button>
             </form>
