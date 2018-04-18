@@ -71,9 +71,6 @@ export default {
                             },
                         },
                         {
-                            loader: 'css-loader', // translates CSS into CommonJS modules
-                        },
-                        {
                             loader: 'postcss-loader',
                             options: {
                                 plugins: () => [autoprefixer]

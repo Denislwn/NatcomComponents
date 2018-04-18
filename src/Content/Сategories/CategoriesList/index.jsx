@@ -1,12 +1,12 @@
 import {BaseApi} from "../../../services/base";
-import Category from "../Category";
-import AddNewCategory from "../AddNewCategory"
+import Category from "./Category";
+import AddNewCategory from "./AddNewCategory"
 
 export default class extends React.Component {
     categories;
     state = {
         categoriesList: [],
-        newCategory: {visibility: false, message: 'Добавить новую категорию'},
+        newCategory: {visibility: false, message: 'Добавить категорию'},
     };
 
     constructor(props) {
@@ -21,7 +21,8 @@ export default class extends React.Component {
                 this.categories = categoriesList.data.results;
                 this.setState({
                         categoriesList: this.categories.map((category) =>
-                            <li key={category.id}><Category category={category}/></li>)
+                            <li onClick={this.categoryClick.bind(this, category.id)}
+                                key={category.id}><Category category={category}/></li>)
                     }
                 )
             })
@@ -35,6 +36,10 @@ export default class extends React.Component {
             categoriesList: this.state.categoriesList
         });
     };
+
+    categoryClick(id) {
+        this.props.setCategoryId(id);
+    }
 
     ready() {
         if (this.state.categoriesList.length !== 0) {

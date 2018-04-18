@@ -1,12 +1,8 @@
 export default class extends React.Component {
-
-    constructor(props) {
-        super(props);
-    }
-
     render() {
+        const {subcategory} = this.props;
         return (
-            <div>Я готов</div>
+            <div>{subcategory.name}</div>
         )
     }
 }

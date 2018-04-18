@@ -1,4 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {connect} from 'react-redux';
 
 import Header from "../Header";
 import Content from "../Content"
@@ -19,3 +20,10 @@ export default class extends React.Component {
 
     }
 }
+
+// export default connect(
+//     state => ({
+//         testStore: state
+//     }),
+//     dispach => ({})
+// )(Root);

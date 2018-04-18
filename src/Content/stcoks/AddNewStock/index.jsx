@@ -41,7 +41,7 @@ export default class extends React.Component {
             <form onSubmit={this.handleSubmit}>
                 <div>
                     <label>Название склада</label>
-                    <input ref="form" type="text" name="stockName" onChange={this.handleChangeStockName}/>
+                    <input type="text" name="stockName" onChange={this.handleChangeStockName}/>
                 </div>
                 <div>
                     <label>Адрес склада</label>

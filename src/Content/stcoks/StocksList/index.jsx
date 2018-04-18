@@ -2,14 +2,17 @@ import {BaseApi} from "../../../services/base";
 import Stock from "../Stock/index"
 import AddNewStock from "../AddNewStock/index"
 import InfiniteScroll from 'react-infinite-scroller';
+import EditStock from "../EditStock"
 
 export default class extends React.Component {
     baseApi = new BaseApi();
+    stock;
     stocksList;
     state = {
         stocks: [],
         hasMoreStocks: true,
         newStock: {visibility: false, message: 'Добавить склад'},
+        editStock: false,
     };
 
     constructor(props) {
@@ -24,14 +27,16 @@ export default class extends React.Component {
                     this.setState({hasMoreStocks: false});
                 }
                 this.stocksList = res.data.results.map(stock =>
-                    <li key={stock.id}><Stock stock={stock}/></li>
+                    <li key={stock.id}><Stock stock={stock}
+                                              openEditStock={this.openEditStock}/></li>
                 );
                 this.setState({stocks: res.data.results});
             });
     }
 
     addNewStock = (stock) => {
-        this.stocksList.push(<li key={stock.id}><Stock stock={stock}/></li>);
+        this.stocksList.push(<li key={stock.id}><Stock stock={stock}
+                                                       openEditStock={this.openEditStock}/></li>);
         this.state.stocks.push(stock);
         this.setState({stocks: this.state.stocks});
     };
@@ -42,7 +47,8 @@ export default class extends React.Component {
         self.baseApi.get(`stocks/?page=${page}`)
             .then(res => {
                 self.stocksList = self.stocksList.concat(res.data.results.map(stock =>
-                    <li key={stock.id}><Stock stock={stock}/></li>
+                    <li key={stock.id}><Stock stock={stock}
+                                              openEditStock={this.openEditStock}/></li>
                 ));
                 const temp = self.state.stocks.concat(res.data.results);
                 self.setState({stocks: temp});
@@ -54,11 +60,37 @@ export default class extends React.Component {
 
     newStock = () => {
         if (!this.state.newStock.visibility) {
-            this.state.newStock =  {visibility: true, message: 'Удалить'};
+            this.state.newStock = {visibility: true, message: 'Удалить'};
         } else {
-            this.state.newStock =  {visibility: false, message: 'Добавить склад'};
+            this.state.newStock = {visibility: false, message: 'Добавить склад'};
         }
         this.setState({newStock: this.state.newStock})
+    };
+
+    openEditStock = (id) => {
+        this.state.stocks.map(stock => {
+            if (stock.id === id) {
+                this.stock = stock;
+                return null;
+            }
+        });
+        this.setState({editStock: !this.state.editStock});
+    };
+
+    successEditStock = (editStock) => {
+        let numberEditStock;
+        this.state.stocks.map((stock, index) => {
+            if (stock.id === editStock.id) {
+                numberEditStock = index;
+                stock = editStock;
+                this.stocksList[index] = <li key={stock.id}>
+                    <Stock stock={stock}
+                           openEditStock={this.openEditStock}/></li>
+                this.stock = null;
+                return null;
+            }
+        });
+        this.setState({editStock: !this.state.editStock});
     };
 
     ready() {
@@ -76,6 +108,12 @@ export default class extends React.Component {
         if (this.state.newStock.visibility) {
             newStock = <AddNewStock addNewStock={this.addNewStock}/>;
         }
+        let editStock = null;
+        if (this.state.editStock) {
+            editStock = <EditStock openEditStock={this.openEditStock}
+                                   successEditStock={this.successEditStock}
+                                   stock={this.stock}/>;
+        }
         return (
             <InfiniteScroll
                 pageStart={1}
@@ -83,6 +121,7 @@ export default class extends React.Component {
                 hasMore={this.state.hasMoreStocks}
             >
                 <div>
+                    {editStock}
                     <span onClick={this.newStock}>{this.state.newStock.message}</span>
                     {newStock}
                     <div>{this.stocksList}</div>

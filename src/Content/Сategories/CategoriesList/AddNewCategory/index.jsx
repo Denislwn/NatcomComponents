@@ -1,4 +1,4 @@
-import {BaseApi} from "../../../services/base";
+import {BaseApi} from "../../../../services/base";
 
 export default class extends React.Component {
 

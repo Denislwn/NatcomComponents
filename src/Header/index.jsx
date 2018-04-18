@@ -1,4 +1,5 @@
 import NavLink from "react-router-dom/es/NavLink";
+import styles from "./styles.scss"
 
 export default class extends React.Component {
     constructor(props) {
@@ -10,8 +11,8 @@ export default class extends React.Component {
         return (
             <header>
                 <ul className="nav flex-column">
-                    <li className="nav-item active">
-                        <NavLink to='/stocks' activeClassName="active" className="nav-link active">Склады</NavLink>
+                    <li className={["nav-item", styles.active].join(' ')}>
+                        <NavLink to='/stocks' activeClassName="active" className="nav-link">Склады</NavLink>
                     </li>
                     <li className="nav-item">
                         <NavLink to='/login' className="nav-link active">Login</NavLink>
