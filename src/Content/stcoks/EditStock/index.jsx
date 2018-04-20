@@ -2,13 +2,14 @@ import styles from "./styles.scss"
 import {BaseApi} from "../../../services/base";
 
 export default class extends React.Component {
+    editStock;
 
     constructor(props) {
         super(props);
-
+        this.editStock = this.props.stock;
         this.state = {
-            stockName: '',
-            stockAddress: ''
+            stockName: this.editStock.name,
+            stockAddress: this.editStock.address,
         }
 
     }
@@ -24,11 +25,9 @@ export default class extends React.Component {
     handleSubmit = event => {
         event.preventDefault();
         const baseApi = new BaseApi();
-        const stock = this.props.stock;
         const newStock = {name: this.state.stockName, address: this.state.stockAddress};
-        baseApi.put(`stocks/${stock.id}/`, newStock)
+        baseApi.put(`stocks/${this.editStock.id}/`, newStock)
             .then(res => {
-                console.log(res.data);
                 this.successEditStock(res.data);
             }, err => {
                 console.log(err);
@@ -37,46 +36,47 @@ export default class extends React.Component {
     };
 
     successEditStock(stock) {
-        this.props.successEditStock(stock)
+        this.props.successEditStock(stock);
     }
 
-    close(id) {
-        this.props.openEditStock(id);
+    close() {
+        this.props.openEditStock();
     }
 
     render() {
-        const stock = this.props.stock;
         return (
             <div className={["modal fade show", styles.modal].join(' ')}>
-                <div className="modal-dialog">
+                <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
                         <form onSubmit={this.handleSubmit}>
                             <div className="modal-header">
-                                <h5 className="modal-title">Modal title</h5>
-                                <button type="button" className="close" aria-label="Close">
-                                <span aria-hidden="true"
-                                      onClick={this.close.bind(this)}>&times;</span>
+                                <h5 className="modal-title">Редактирование склада</h5>
+                                <button type="button" className="close" aria-label="Close"
+                                        onClick={this.close.bind(this)}>
+                                    <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div className="modal-body">
                                 <div>
-                                    <label>Название склада</label>
-                                    <input type="text"
-                                           defaultValue={stock.stockName}
-                                           onChange={this.handleChangeStockName}/>
+                                    <div>Название склада</div>
+                                    <textarea defaultValue={this.state.stockName}
+                                              className={styles['text-comment-dialog']}
+                                              onChange={this.handleChangeStockName}/>
                                 </div>
                                 <div>
-                                    <label>Адрес склада</label>
-                                    <input type="text"
-                                           defaultValue={this.state.stockAddress}
-                                           onChange={this.handleChangeStockAddress}/>
+                                    <div>Адрес склада</div>
+                                    <textarea defaultValue={this.state.stockAddress}
+                                              className={styles['text-comment-dialog']}
+                                              onChange={this.handleChangeStockAddress}/>
                                 </div>
                             </div>
                             <div className="modal-footer">
                                 <button onClick={this.close.bind(this)}
-                                        type="button" className="btn btn-secondary">Закрыть
+                                        type="button"
+                                        className="btn btn-secondary">Закрыть
                                 </button>
-                                <button type="submit" className="btn btn-primary">Изменить</button>
+                                <button type="submit"
+                                        className="btn btn-primary">Изменить</button>
                             </div>
                         </form>
                     </div>

@@ -9,7 +9,7 @@ export default class extends React.Component {
 
     render() {
         return (
-            <header>
+            <header className={styles['nav-bar']}>
                 <ul className="nav flex-column">
                     <li className="nav-item">
                         <NavLink to='/stocks' activeClassName={styles.active}

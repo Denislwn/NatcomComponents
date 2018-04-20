@@ -2,7 +2,6 @@ import {BaseApi} from "../../../services/base";
 import Stock from "../Stock/index"
 import AddNewStock from "../AddNewStock/index"
 import InfiniteScroll from 'react-infinite-scroller';
-import EditStock from "../EditStock"
 
 export default class extends React.Component {
     baseApi = new BaseApi();
@@ -12,7 +11,6 @@ export default class extends React.Component {
         stocks: [],
         hasMoreStocks: true,
         newStock: {visibility: false, message: 'Добавить склад'},
-        editStock: false,
     };
 
     constructor(props) {
@@ -27,16 +25,15 @@ export default class extends React.Component {
                     this.setState({hasMoreStocks: false});
                 }
                 this.stocksList = res.data.results.map(stock =>
-                    <li key={stock.id}><Stock stock={stock}
-                                              openEditStock={this.openEditStock}/></li>
+                    <Stock key={stock.id} stock={stock}/>
                 );
                 this.setState({stocks: res.data.results});
             });
     }
 
     addNewStock = (stock) => {
-        this.stocksList.push(<li key={stock.id}><Stock stock={stock}
-                                                       openEditStock={this.openEditStock}/></li>);
+        this.stocksList.push(<Stock stock={stock}
+                                    key={stock.id}/>);
         this.state.stocks.push(stock);
         this.setState({stocks: this.state.stocks});
     };
@@ -47,8 +44,8 @@ export default class extends React.Component {
         self.baseApi.get(`stocks/?page=${page}`)
             .then(res => {
                 self.stocksList = self.stocksList.concat(res.data.results.map(stock =>
-                    <li key={stock.id}><Stock stock={stock}
-                                              openEditStock={this.openEditStock}/></li>
+                    <Stock stock={stock}
+                           key={stock.id}/>
                 ));
                 const temp = self.state.stocks.concat(res.data.results);
                 self.setState({stocks: temp});
@@ -67,32 +64,6 @@ export default class extends React.Component {
         this.setState({newStock: this.state.newStock})
     };
 
-    openEditStock = (id) => {
-        this.state.stocks.map(stock => {
-            if (stock.id === id) {
-                this.stock = stock;
-                return null;
-            }
-        });
-        this.setState({editStock: !this.state.editStock});
-    };
-
-    successEditStock = (editStock) => {
-        let numberEditStock;
-        this.state.stocks.map((stock, index) => {
-            if (stock.id === editStock.id) {
-                numberEditStock = index;
-                stock = editStock;
-                this.stocksList[index] = <li key={stock.id}>
-                    <Stock stock={stock}
-                           openEditStock={this.openEditStock}/></li>
-                this.stock = null;
-                return null;
-            }
-        });
-        this.setState({editStock: !this.state.editStock});
-    };
-
     ready() {
         if (this.state.stocks.length !== 0) {
             return true;
@@ -108,12 +79,6 @@ export default class extends React.Component {
         if (this.state.newStock.visibility) {
             newStock = <AddNewStock addNewStock={this.addNewStock}/>;
         }
-        let editStock = null;
-        if (this.state.editStock) {
-            editStock = <EditStock openEditStock={this.openEditStock}
-                                   successEditStock={this.successEditStock}
-                                   stock={this.stock}/>;
-        }
         return (
             <InfiniteScroll
                 pageStart={1}
@@ -121,10 +86,11 @@ export default class extends React.Component {
                 hasMore={this.state.hasMoreStocks}
             >
                 <div>
-                    {editStock}
                     <span onClick={this.newStock}>{this.state.newStock.message}</span>
                     {newStock}
-                    <div>{this.stocksList}</div>
+                    <table className="table table-hover">
+                        <tbody>{this.stocksList}</tbody>
+                    </table>
                 </div>
             </InfiniteScroll>
         );
