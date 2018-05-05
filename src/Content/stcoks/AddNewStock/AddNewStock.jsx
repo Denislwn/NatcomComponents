@@ -1,6 +1,7 @@
-import {BaseApi} from "../../../services/base";
+import {connect} from "react-redux";
+import {addNewStock} from "../../../AC";
 
-export default class extends React.Component {
+export class AddNewStock extends React.Component {
 
     state = {
         stockName: '',
@@ -21,19 +22,8 @@ export default class extends React.Component {
 
     handleSubmit = event => {
         event.preventDefault();
-        const baseApi = new BaseApi();
         const newStock = {name: this.state.stockName, address: this.state.stockAddress};
-        baseApi.post(`stocks/`, newStock)
-            .then(res => {
-                this.handleStocksChange(res.data);
-            }, err => {
-                console.log(err);
-            })
-
-    };
-
-    handleStocksChange = (stock) => {
-        this.props.addNewStock(stock);
+        this.props.addNewStock(newStock);
     };
 
     render() {
@@ -52,3 +42,5 @@ export default class extends React.Component {
         )
     }
 }
+
+export default connect(null, {addNewStock})(AddNewStock);

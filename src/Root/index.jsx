@@ -1,5 +1,4 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {connect} from 'react-redux';
 
 import Header from "../Header";
 import Content from "../Content"

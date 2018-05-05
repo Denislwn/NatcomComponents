@@ -1,0 +1,3 @@
+export const GET_ALL_STOCKS = 'GET_ALL_STOCKS';
+export const GET_NEXT_STOCKS = 'GET_NEXT_STOCKS';
+export const ADD_NEW_STOCK = 'ADD_NEW_STOCK';
