@@ -45,8 +45,9 @@ export default class extends React.Component {
 
     render() {
         return (
-            <div className={["modal fade show", styles.modal].join(' ')}>
-                <div className="modal-dialog modal-dialog-centered">
+            <div className={["modal show", styles.open].join(' ')}>
+                <div className={["modal-dialog modal-dialog-centered",
+                                styles['modal-dialog']].join(' ')}>
                     <div className="modal-content">
                         <form onSubmit={this.handleSubmit}>
                             <div className="modal-header">
@@ -76,10 +77,14 @@ export default class extends React.Component {
                                         className="btn btn-secondary">Закрыть
                                 </button>
                                 <button type="submit"
-                                        className="btn btn-primary">Изменить</button>
+                                        className="btn btn-primary">Изменить
+                                </button>
                             </div>
                         </form>
                     </div>
+                </div>
+                <div className={[styles.modal].join(' ')}
+                     onClick={this.close.bind(this)}>
                 </div>
             </div>
         )

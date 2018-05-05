@@ -1,5 +1,6 @@
-import {BaseApi} from "../../../services/base";
-import EditStock from "../EditStock"
+import {BaseApi} from '../../../services/base';
+import EditStock from '../EditStock';
+import RemoveStock from '../RemoveStock';
 
 export default class extends React.Component {
     baseApi = new BaseApi();
@@ -11,7 +12,6 @@ export default class extends React.Component {
     };
 
     componentWillMount() {
-        console.log(this.props);
         const stockId = this.props.match.params.stockId;
         this.baseApi
             .get(`stocks/${stockId}/`)
@@ -28,6 +28,15 @@ export default class extends React.Component {
         this.setState({editStock: !this.state.editStock, stock: stock});
     };
 
+    openRemoveStock = () => {
+        this.setState({removeStock: !this.state.removeStock});
+    };
+
+    successRemoveStock = () => {
+        this.setState({editStock: !this.state.editStock});
+        this.props.history.push(`/stocks`);
+    };
+
     ready() {
         if (this.state.stock !== null) {
             return true;
@@ -42,8 +51,13 @@ export default class extends React.Component {
         let editStock = null;
         if (this.state.editStock) {
             editStock = <EditStock openEditStock={this.openEditStock}
-                                   successEditStock = {this.successEditStock}
+                                   successEditStock={this.successEditStock}
                                    stock={this.state.stock}/>;
+        }
+        if (this.state.removeStock) {
+            editStock = <RemoveStock openRemoveStock={this.openRemoveStock}
+                                     successRemoveStock={this.successRemoveStock}
+                                     stockId={this.state.stock.id}/>;
         }
         const stock = this.state.stock;
         return (
@@ -53,7 +67,12 @@ export default class extends React.Component {
                 {editStock}
                 <button type="button"
                         onClick={this.openEditStock}
-                        className="btn btn-primary btn-sm">Редактирова склад</button>
+                        className="btn btn-primary btn-sm">Редактирова склад
+                </button>
+                <button type="button"
+                        onClick={this.openRemoveStock}
+                        className="btn btn-primary btn-sm">Remove склад
+                </button>
             </div>
         )
     }

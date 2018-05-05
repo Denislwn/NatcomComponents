@@ -5,6 +5,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import {connect} from "react-redux";
 import {getAllStocks, getNextStocks} from "../../../AC";
 import {mapToArr} from "../../../helpers";
+import {getStocksSelector} from "../../../selectors/stocksSelector";
 
 export class StockList extends React.Component {
     baseApi = new BaseApi();
@@ -38,7 +39,7 @@ export class StockList extends React.Component {
     ready() {
         if (this.props.stocks !== undefined) {
             this.stocksList = this.props.stocks.map(stock =>
-                <Stock key={stock.id} stock={stock}/>
+                <Stock key={stock.id} stock={stock} history={this.props.history}/>
             );
             return true;
         }
@@ -72,6 +73,6 @@ export class StockList extends React.Component {
 }
 
 export default connect((state) => ({
-    stocks: mapToArr(state.stocks.stocks),
+    stocks: getStocksSelector(state),
     hasMoreStocks: state.stocks.hasMoreStocks
 }), {getAllStocks, getNextStocks})(StockList);

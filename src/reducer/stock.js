@@ -34,12 +34,14 @@ export default (stockState = defaultState, actionTypeResponse) => {
                 return stockState.set('stocks', stockList)
                                  .set('hasMoreStocks', false);
             }
-            return stockState.set('stocks', stockList)
+            return stockState.set('stocks', stockList);
         }
         case ADD_NEW_STOCK: {
-            // let arr = [];
-            // arr.push(response.data);
-            // return stockState.stocks.set('stocks', stockState.stocks.concat(arrToMap(arr, StockRecord)));
+            let arr = [];
+            arr.push(response.data);
+            arr = arrToMap(arr, StockRecord);
+            arr = stockState.stocks.concat(arr);
+            return stockState.set('stocks', arr);
         }
     }
     return stockState;
