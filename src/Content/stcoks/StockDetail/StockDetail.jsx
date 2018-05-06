@@ -1,23 +1,20 @@
 import {BaseApi} from '../../../services/base';
 import EditStock from '../EditStock';
 import RemoveStock from '../RemoveStock';
+import {connect} from "react-redux";
+import {editStock, getStockDetail} from "../../../AC";
 
-export default class extends React.Component {
+class StockDetail extends React.Component {
     baseApi = new BaseApi();
 
     state = {
-        stock: null,
         editStock: false,
         removeStock: false
     };
 
     componentWillMount() {
         const stockId = this.props.match.params.stockId;
-        this.baseApi
-            .get(`stocks/${stockId}/`)
-            .then((stock) => {
-                this.setState({stock: stock.data});
-            });
+        this.props.getStockDetail(stockId);
     }
 
     openEditStock = () => {
@@ -25,7 +22,8 @@ export default class extends React.Component {
     };
 
     successEditStock = (stock) => {
-        this.setState({editStock: !this.state.editStock, stock: stock});
+        this.setState({editStock: !this.state.editStock});
+        this.props.editStock(stock);
     };
 
     openRemoveStock = () => {
@@ -38,7 +36,7 @@ export default class extends React.Component {
     };
 
     ready() {
-        if (this.state.stock !== null) {
+        if (this.props.stock !== null) {
             return true;
         }
         return false;
@@ -52,14 +50,14 @@ export default class extends React.Component {
         if (this.state.editStock) {
             editStock = <EditStock openEditStock={this.openEditStock}
                                    successEditStock={this.successEditStock}
-                                   stock={this.state.stock}/>;
+                                   stock={this.props.stock}/>;
         }
         if (this.state.removeStock) {
             editStock = <RemoveStock openRemoveStock={this.openRemoveStock}
                                      successRemoveStock={this.successRemoveStock}
-                                     stockId={this.state.stock.id}/>;
+                                     stockId={this.props.stock.id}/>;
         }
-        const stock = this.state.stock;
+        const stock = this.props.stock;
         return (
             <div>
                 <div>{stock.name}</div>
@@ -77,3 +75,7 @@ export default class extends React.Component {
         )
     }
 }
+
+export default connect((state) => ({
+    stock: state.stocks.stock,
+}), {getStockDetail, editStock})(StockDetail);

@@ -1,4 +1,7 @@
-import {GET_ALL_STOCKS, GET_NEXT_STOCKS, ADD_NEW_STOCK} from "../constans";
+import {
+    GET_ALL_STOCKS, GET_NEXT_STOCKS,
+    ADD_NEW_STOCK, GET_STOCK_DETAIL, EDIT_STOCK
+} from "../constans";
 
 export function getAllStocks() {
     return {
@@ -21,6 +24,21 @@ export function addNewStock(data) {
         type: ADD_NEW_STOCK,
         requestType: 'POST',
         callAPI: `stocks/`,
+        data: data
+    }
+}
+
+export function getStockDetail(stockId) {
+    return {
+        type: GET_STOCK_DETAIL,
+        requestType: 'GET',
+        callAPI: `stocks/${stockId}/`,
+    }
+}
+
+export function editStock(data) {
+    return {
+        type: EDIT_STOCK,
         data: data
     }
 }

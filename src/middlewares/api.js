@@ -22,6 +22,13 @@ export default store => next => action => {
                 .then(response => next({type, response}));
             break;
         }
+        case 'PUT': {
+            const {data} = action;
+            baseApi
+                .put(callAPI, data)
+                .then(response => next({type, response}));
+            break;
+        }
     }
 
 }
