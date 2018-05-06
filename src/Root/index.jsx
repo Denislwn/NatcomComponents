@@ -19,10 +19,3 @@ export default class extends React.Component {
 
     }
 }
-
-// export default connect(
-//     state => ({
-//         testStore: state
-//     }),
-//     dispach => ({})
-// )(Root);
