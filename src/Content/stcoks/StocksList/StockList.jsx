@@ -3,7 +3,7 @@ import Stock from "../Stock/index"
 import AddNewStock from "../AddNewStock/AddNewStock"
 import InfiniteScroll from 'react-infinite-scroller';
 import {connect} from "react-redux";
-import {getAllStocks, getNextStocks} from "../../../AC";
+import {getAllStocks, getNextStocks} from "../../../AC/stocks";
 import {mapToArr} from "../../../helpers";
 import {getStocksSelector} from "../../../selectors/stocksSelector";
 

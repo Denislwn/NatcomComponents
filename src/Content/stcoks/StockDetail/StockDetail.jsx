@@ -2,11 +2,9 @@ import {BaseApi} from '../../../services/base';
 import EditStock from '../EditStock';
 import RemoveStock from '../RemoveStock';
 import {connect} from "react-redux";
-import {editStock, getStockDetail} from "../../../AC";
+import {editStock, getStockDetail} from "../../../AC/stocks";
 
 class StockDetail extends React.Component {
-    baseApi = new BaseApi();
-
     state = {
         editStock: false,
         removeStock: false

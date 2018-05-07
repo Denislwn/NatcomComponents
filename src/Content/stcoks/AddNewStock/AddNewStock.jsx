@@ -1,5 +1,5 @@
 import {connect} from "react-redux";
-import {addNewStock} from "../../../AC";
+import {addNewStock} from "../../../AC/stocks";
 
 export class AddNewStock extends React.Component {
 

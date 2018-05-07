@@ -1,6 +1,7 @@
-import {BaseApi} from "../../../services/base";
+import {connect} from "react-redux";
+import {addNewSupplier} from "../../../AC/suppliers";
 
-export default class extends React.Component {
+class AddNewSupplier extends React.Component {
 
     state = {
         supplierName: '',
@@ -26,20 +27,13 @@ export default class extends React.Component {
 
     handleSubmit = event => {
         event.preventDefault();
-        const baseApi = new BaseApi();
         let newSupplier = {
             name: this.state.supplierName,
             inn: this.state.supplierInn,
             comment: this.state.supplierComment,
         };
         newSupplier = this.checkSupplier(newSupplier);
-        baseApi.post(`suppliers/`, newSupplier)
-            .then(res => {
-                this.handleStocksChange(res.data);
-            }, err => {
-                console.log(err);
-            })
-
+        this.props.addNewSupplier(newSupplier);
     };
 
     checkSupplier(supplier) {
@@ -51,10 +45,6 @@ export default class extends React.Component {
         }
         return supplier;
     }
-
-    handleStocksChange = (supplier) => {
-        this.props.addNewSupplier(supplier);
-    };
 
     render() {
         return (
@@ -76,3 +66,5 @@ export default class extends React.Component {
         )
     }
 }
+
+export default connect(null, {addNewSupplier})(AddNewSupplier)

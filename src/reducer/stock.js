@@ -28,15 +28,16 @@ export default (stockState = defaultState, actionTypeResponse) => {
         case GET_ALL_STOCKS: {
             if (response.data.next === null) {
                 return stockState.set('stocks', arrToMap(response.data.results, StockRecord))
-                    .set('hasMoreStocks', false);
+                                 .set('hasMoreStocks', false);
             }
-            return stockState.set('stocks', arrToMap(response.data.results, StockRecord));
+            return stockState.set('stocks', arrToMap(response.data.results, StockRecord))
+                             .set('hasMoreStocks', true);
         }
         case GET_NEXT_STOCKS: {
             const stockList = stockState.stocks.concat(arrToMap(response.data.results, StockRecord));
             if (response.data.next === null) {
                 return stockState.set('stocks', stockList)
-                    .set('hasMoreStocks', false);
+                                 .set('hasMoreStocks', false);
             }
             return stockState.set('stocks', stockList);
         }

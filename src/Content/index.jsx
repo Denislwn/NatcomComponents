@@ -3,10 +3,9 @@ import Route from "react-router-dom/es/Route";
 
 import Main from "./Main";
 import Login from "./Login";
-import SuppliersList from "./suppliers/SuppliersList";
-import SupplierDetail from "./suppliers/SupplierDetail";
 import Categories from "./Сategories";
 import StocksPage from "./stcoks/StocksPage";
+import SuppliersPage from "./suppliers/SuppliersPage";
 
 export default class extends React.Component {
 
@@ -23,8 +22,8 @@ export default class extends React.Component {
                     <Route path='/login' component={Login}/>
                     <Route path='/stocks/:stockId' component={StocksPage}/>
                     <Route path='/stocks' component={StocksPage}/>
-                    <Route path='/suppliers/:suppliersId' component={SupplierDetail}/>
-                    <Route exact path='/suppliers' component={SuppliersList}/>
+                    <Route path='/suppliers/:supplierId' component={SuppliersPage}/>
+                    <Route exact path='/suppliers' component={SuppliersPage}/>
                     <Route exact path='/categories' component={Categories}/>
                 </Switch>
             </main>)

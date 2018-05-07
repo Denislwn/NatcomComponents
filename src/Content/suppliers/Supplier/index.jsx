@@ -7,18 +7,18 @@ export default class extends React.Component {
     }
 
     checkFields(supplier) {
-        if (!supplier.inn) {
-            supplier.inn = 'Нет ИНН';
+        let checkSupplier = Object.assign({}, supplier);
+        if (!checkSupplier.inn) {
+            checkSupplier.inn = 'Нет ИНН';
         }
-        if (!supplier.comment) {
-            supplier.comment = 'комментарий отсутсвует'
+        if (!checkSupplier.comment) {
+            checkSupplier.comment = 'комментарий отсутсвует'
         }
-        return supplier;
+        return checkSupplier;
     }
 
     render() {
-        let {supplier} = this.props;
-        supplier = this.checkFields(supplier);
+        const {supplier} = this.props;
         return (
             <NavLink to={`/suppliers/${supplier.id}`}>
                 <div>{supplier.name}</div>

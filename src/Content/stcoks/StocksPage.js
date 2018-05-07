@@ -9,7 +9,6 @@ import {connect} from "react-redux";
 class StocksPage extends React.Component {
     render() {
         let menu = <NavLink to='/stocks'><span>Склады</span></NavLink>;
-        console.log(this.props);
         if (this.props.match.params.stockId && this.props.stock !== null) {
             menu = <div>
                 <NavLink to='/stocks'>
