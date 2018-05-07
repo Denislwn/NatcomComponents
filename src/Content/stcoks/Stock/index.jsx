@@ -1,3 +1,5 @@
+import styles from './styles.scss';
+
 export default class extends React.Component {
 
     constructor(props) {
@@ -19,7 +21,8 @@ export default class extends React.Component {
     render() {
         const {stock} = this.props;
         return (
-            <tr onClick={this.openStockDetail.bind(this, stock.id)}>
+            <tr onClick={this.openStockDetail.bind(this, stock.id)}
+                className={styles["hover-element"]}>
                 <td>{stock.name}</td>
                 <td>{stock.address}</td>
                 <td>{this.checkMainStock(stock.main)}</td>

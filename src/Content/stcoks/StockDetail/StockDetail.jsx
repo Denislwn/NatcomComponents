@@ -65,11 +65,11 @@ class StockDetail extends React.Component {
                 {editStock}
                 <button type="button"
                         onClick={this.openEditStock}
-                        className="btn btn-primary btn-sm">Редактирова склад
+                        className="btn btn-primary btn-sm">Редактировать склад
                 </button>
                 <button type="button"
                         onClick={this.openRemoveStock}
-                        className="btn btn-primary btn-sm">Remove склад
+                        className="btn btn-primary btn-sm">Удалить склад
                 </button>
             </div>
         )
