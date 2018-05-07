@@ -62,9 +62,16 @@ class SuppliersList extends React.Component {
                         <span onClick={this.newSupplier}>{this.state.newSupplier.message}</span>
                         {newSupplier}
                     </div>
-                    <ul>
-                        {this.suppliersList}
-                    </ul>
+                    <table className="table table-hover">
+                        <thead className="thead-light">
+                            <tr>
+                                <th scope="col">Поставщик</th>
+                                <th scope="col">ИНН</th>
+                                <th scope="col">Комментарий</th>
+                            </tr>
+                        </thead>
+                        <tbody>{this.suppliersList}</tbody>
+                    </table>
                 </div>
             </InfiniteScroll>
         )

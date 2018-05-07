@@ -28,16 +28,12 @@ export default class extends React.Component {
         const newStock = {name: this.state.supplierName, address: this.state.supplierInn};
         baseApi.put(`stocks/${this.editStock.id}/`, newStock)
             .then(res => {
-                this.successEditStock(res.data);
+                his.props.successEditStock(res.data);
             }, err => {
                 console.log(err);
             })
 
     };
-
-    successEditStock(stock) {
-        this.props.successEditStock(stock);
-    }
 
     close() {
         this.props.openEditStock();

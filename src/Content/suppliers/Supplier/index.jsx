@@ -1,30 +1,37 @@
-import NavLink from "react-router-dom/es/NavLink";
+import styles from './styles.scss';
 
 export default class extends React.Component {
-
     constructor(props) {
         super(props);
     }
 
-    checkFields(supplier) {
-        let checkSupplier = Object.assign({}, supplier);
-        if (!checkSupplier.inn) {
-            checkSupplier.inn = 'Нет ИНН';
+    openSupplierDetail(supplierId) {
+        this.props.history.push(`suppliers/${supplierId}`);
+    }
+
+    checkInn(inn) {
+        if (!inn) {
+            return 'Инн не указан';
         }
-        if (!checkSupplier.comment) {
-            checkSupplier.comment = 'комментарий отсутсвует'
+        return inn;
+    }
+
+    checkComment(comment) {
+        if (!comment) {
+            return 'Комментрий отсутвует';
         }
-        return checkSupplier;
+        return comment;
     }
 
     render() {
         const {supplier} = this.props;
         return (
-            <NavLink to={`/suppliers/${supplier.id}`}>
-                <div>{supplier.name}</div>
-                <div>{supplier.inn}</div>
-                <div>{supplier.comment}</div>
-            </NavLink>
+            <tr onClick={this.openSupplierDetail.bind(this, supplier.id)}
+                className={styles["hover-element"]}>
+                <td>{supplier.name}</td>
+                <td>{this.checkInn(supplier.inn)}</td>
+                <td>{this.checkComment(supplier.comment)}</td>
+            </tr>
         )
     }
 }

@@ -5,7 +5,6 @@ import EditSupplier from '../EditSupplier'
 class SupplierDetail extends React.Component {
     state = {
         editSupplier: false,
-        removeSupplier: false
     };
 
     componentWillMount() {
@@ -19,18 +18,9 @@ class SupplierDetail extends React.Component {
 
     successEditSupplier = (supplier) => {
         this.setState({editSupplier: !this.state.editSupplier});
-        console.log(supplier);
         this.props.editSupplier(supplier);
     };
 
-    openRemoveSupplier = () => {
-        this.setState({removeStock: !this.state.removeStock});
-    };
-
-    successRemoveSupplier = () => {
-        this.setState({editStock: !this.state.editStock});
-        this.props.history.push(`/stocks`);
-    };
 
     ready() {
         if (this.props.supplier !== null) {
@@ -49,11 +39,6 @@ class SupplierDetail extends React.Component {
                                            successEditSupplier={this.successEditSupplier}
                                            supplier={this.props.supplier}/>;
         }
-        // if (this.state.removeSupplier) {
-        //     changeSupplier = <RemoveStock openRemoveStock={this.openRemoveStock}
-        //                                   successRemoveStock={this.successRemoveStock}
-        //                                   stockId={this.props.stock.id}/>;
-        // }
         const supplier = this.props.supplier;
         return (
             <div>

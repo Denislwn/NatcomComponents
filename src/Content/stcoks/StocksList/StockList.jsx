@@ -8,7 +8,6 @@ import {mapToArr} from "../../../helpers";
 import {getStocksSelector} from "../../../selectors/stocksSelector";
 
 export class StockList extends React.Component {
-    baseApi = new BaseApi();
     stock;
     stocksList;
     state = {
@@ -64,6 +63,13 @@ export class StockList extends React.Component {
                     <span onClick={this.newStock}>{this.state.newStock.message}</span>
                     {newStock}
                     <table className="table table-hover">
+                        <thead className="thead-light">
+                            <tr>
+                                <th scope="col">Название</th>
+                                <th scope="col">Адрес</th>
+                                <th scope="col">Статус</th>
+                            </tr>
+                        </thead>
                         <tbody>{this.stocksList}</tbody>
                     </table>
                 </div>

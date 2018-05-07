@@ -28,17 +28,17 @@ export default (suppliersState = defaultState, actionTypeResponse) => {
         case GET_ALL_SUPPLIERS: {
             if (response.data.next === null) {
                 return suppliersState.set('suppliers', arrToMap(response.data.results, SupplierRecord))
-                    .set('hasMoreSuppliers', false);
+                                     .set('hasMoreSuppliers', false);
             }
             return suppliersState.set('suppliers', arrToMap(response.data.results, SupplierRecord))
-                .set('hasMoreSuppliers', true);
+                                 .set('hasMoreSuppliers', true);
         }
         case GET_NEXT_SUPPLIERS: {
             const suppliersMap = arrToMap(response.data.results, SupplierRecord);
-            const suppliersList = suppliersState.suppliers.concat(suppliersMap);
+            const suppliersList = suppliersState.suppliers.merge(suppliersMap);
             if (response.data.next === null) {
                 return suppliersState.set('suppliers', suppliersList)
-                    .set('hasMoreSuppliers', false);
+                                     .set('hasMoreSuppliers', false);
             }
             return suppliersState.set('suppliers', suppliersList);
         }

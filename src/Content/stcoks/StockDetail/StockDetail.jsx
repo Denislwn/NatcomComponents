@@ -29,7 +29,7 @@ class StockDetail extends React.Component {
     };
 
     successRemoveStock = () => {
-        this.setState({editStock: !this.state.editStock});
+        this.setState({removeStock: !this.state.removeStock});
         this.props.history.push(`/stocks`);
     };
 
