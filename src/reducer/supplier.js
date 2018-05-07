@@ -1,4 +1,7 @@
-import {ADD_NEW_SUPPLIER, GET_ALL_SUPPLIERS, GET_NEXT_SUPPLIERS, GET_SUPPLIER_DETAIL} from "../constans";
+import {
+    ADD_NEW_SUPPLIER, EDIT_SUPPLIER, GET_ALL_SUPPLIERS,
+    GET_NEXT_SUPPLIERS, GET_SUPPLIER_DETAIL
+} from "../constans";
 import {OrderedMap, Record} from "immutable";
 import {arrToMap} from "../helpers";
 
@@ -48,6 +51,9 @@ export default (suppliersState = defaultState, actionTypeResponse) => {
         }
         case GET_SUPPLIER_DETAIL: {
             return suppliersState.set('supplier', response.data);
+        }
+        case EDIT_SUPPLIER: {
+            return suppliersState.set('supplier', data);
         }
     }
     return suppliersState;

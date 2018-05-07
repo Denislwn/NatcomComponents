@@ -2,56 +2,72 @@ import styles from "./styles.scss"
 import {BaseApi} from "../../../services/base";
 
 export default class extends React.Component {
-    editStock;
+    editSupplier;
 
     constructor(props) {
         super(props);
-        this.editStock = this.props.stock;
+        this.editSupplier = this.props.supplier;
         this.state = {
-            supplierName: this.editStock.name,
-            supplierInn: this.editStock.address,
+            supplierName: this.editSupplier.name,
+            supplierInn: this.editSupplier.inn,
+            supplierComment: this.editSupplier.comment
         }
 
     }
 
-    handleChangeStockName = event => {
+    handleChangeSupplierName = event => {
         this.setState({supplierName: event.target.value});
     };
 
-    handleChangeStockAddress = event => {
+    handleChangeSupplierInn = event => {
         this.setState({supplierInn: event.target.value});
+    };
+
+    handleChangeSupplierComment = event => {
+        this.setState({supplierComment: event.target.value});
     };
 
     handleSubmit = event => {
         event.preventDefault();
         const baseApi = new BaseApi();
-        const newStock = {name: this.state.supplierName, address: this.state.supplierInn};
-        baseApi.put(`stocks/${this.editStock.id}/`, newStock)
+        const newSupplier = this.getFormValues();
+        baseApi.put(`suppliers/${this.editSupplier.id}/`, newSupplier)
             .then(res => {
-                this.successEditStock(res.data);
+                this.props.successEditSupplier(res.data);
             }, err => {
                 console.log(err);
             })
 
     };
 
-    successEditStock(stock) {
-        this.props.successEditStock(stock);
+    getFormValues() {
+        let newSupplier = {
+            name: this.state.supplierName,
+            inn: this.state.supplierInn,
+            comment: this.state.supplierComment
+        };
+        if (!newSupplier.inn) {
+            newSupplier.inn = null;
+        }
+        if (!newSupplier.comment) {
+            newSupplier.comment = null;
+        }
+        return newSupplier;
     }
 
     close() {
-        this.props.openEditStock();
+        this.props.openEditSupplier();
     }
 
     render() {
         return (
             <div className={["modal show", styles.open].join(' ')}>
                 <div className={["modal-dialog modal-dialog-centered",
-                                styles['modal-dialog']].join(' ')}>
+                    styles['modal-dialog']].join(' ')}>
                     <div className="modal-content">
                         <form onSubmit={this.handleSubmit}>
                             <div className="modal-header">
-                                <h5 className="modal-title">Редактирование склада</h5>
+                                <h5 className="modal-title">Редактирование поставщика</h5>
                                 <button type="button" className="close" aria-label="Close"
                                         onClick={this.close.bind(this)}>
                                     <span aria-hidden="true">&times;</span>
@@ -59,16 +75,22 @@ export default class extends React.Component {
                             </div>
                             <div className="modal-body">
                                 <div>
-                                    <div>Название склада</div>
+                                    <div>Название поставщика</div>
                                     <textarea defaultValue={this.state.supplierName}
                                               className={styles['text-comment-dialog']}
-                                              onChange={this.handleChangeStockName}/>
+                                              onChange={this.handleChangeSupplierName}/>
                                 </div>
                                 <div>
-                                    <div>Адрес склада</div>
+                                    <div>ИНН</div>
                                     <textarea defaultValue={this.state.supplierInn}
                                               className={styles['text-comment-dialog']}
-                                              onChange={this.handleChangeStockAddress}/>
+                                              onChange={this.handleChangeSupplierInn}/>
+                                </div>
+                                <div>
+                                    <div>Комментарий</div>
+                                    <textarea defaultValue={this.state.supplierComment}
+                                              className={styles['text-comment-dialog']}
+                                              onChange={this.handleChangeSupplierComment}/>
                                 </div>
                             </div>
                             <div className="modal-footer">

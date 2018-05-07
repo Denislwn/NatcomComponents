@@ -4,8 +4,8 @@ import {addNewStock} from "../../../AC/stocks";
 export class AddNewStock extends React.Component {
 
     state = {
-        stockName: '',
-        stockAddress: ''
+        supplierName: '',
+        supplierInn: ''
     };
 
     constructor(props) {
@@ -13,16 +13,16 @@ export class AddNewStock extends React.Component {
     }
 
     handleChangeStockName = event => {
-        this.setState({stockName: event.target.value});
+        this.setState({supplierName: event.target.value});
     };
 
     handleChangeStockAddress = event => {
-        this.setState({stockAddress: event.target.value});
+        this.setState({supplierInn: event.target.value});
     };
 
     handleSubmit = event => {
         event.preventDefault();
-        const newStock = {name: this.state.stockName, address: this.state.stockAddress};
+        const newStock = {name: this.state.supplierName, address: this.state.supplierInn};
         this.props.addNewStock(newStock);
     };
 

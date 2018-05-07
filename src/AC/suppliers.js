@@ -1,6 +1,6 @@
 import {
     ADD_NEW_SUPPLIER, GET_ALL_SUPPLIERS, GET_NEXT_SUPPLIERS,
-    GET_SUPPLIER_DETAIL
+    GET_SUPPLIER_DETAIL, EDIT_SUPPLIER
 } from "../constans";
 
 export function getAllSuppliers() {
@@ -33,5 +33,12 @@ export function getSupplierDetail(supplierId) {
         type: GET_SUPPLIER_DETAIL,
         requestType: 'GET',
         callAPI: `suppliers/${supplierId}/`,
+    }
+}
+
+export function editSupplier(data) {
+    return {
+        type: EDIT_SUPPLIER,
+        data: data
     }
 }

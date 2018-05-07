@@ -21,7 +21,7 @@ class StockDetail extends React.Component {
 
     successEditStock = (stock) => {
         this.setState({editStock: !this.state.editStock});
-        this.props.editStock(stock);
+        this.props.editSupplier(stock);
     };
 
     openRemoveStock = () => {
@@ -44,14 +44,14 @@ class StockDetail extends React.Component {
         if (!this.ready()) {
             return false;
         }
-        let editStock = null;
+        let changeStock = null;
         if (this.state.editStock) {
-            editStock = <EditStock openEditStock={this.openEditStock}
+            changeStock = <EditStock openEditStock={this.openEditStock}
                                    successEditStock={this.successEditStock}
                                    stock={this.props.stock}/>;
         }
         if (this.state.removeStock) {
-            editStock = <RemoveStock openRemoveStock={this.openRemoveStock}
+            changeStock = <RemoveStock openRemoveStock={this.openRemoveStock}
                                      successRemoveStock={this.successRemoveStock}
                                      stockId={this.props.stock.id}/>;
         }
@@ -60,7 +60,7 @@ class StockDetail extends React.Component {
             <div>
                 <div>{stock.name}</div>
                 <div>{stock.address}</div>
-                {editStock}
+                {changeStock}
                 <button type="button"
                         onClick={this.openEditStock}
                         className="btn btn-primary btn-sm">Редактировать склад
