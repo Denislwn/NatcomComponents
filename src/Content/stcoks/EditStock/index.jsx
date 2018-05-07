@@ -9,7 +9,7 @@ export default class extends React.Component {
         this.editStock = this.props.stock;
         this.state = {
             supplierName: this.editStock.name,
-            supplierInn: this.editStock.address,
+            supplierAddress: this.editStock.address,
         }
 
     }
@@ -19,16 +19,16 @@ export default class extends React.Component {
     };
 
     handleChangeStockAddress = event => {
-        this.setState({supplierInn: event.target.value});
+        this.setState({supplierAddress: event.target.value});
     };
 
     handleSubmit = event => {
         event.preventDefault();
         const baseApi = new BaseApi();
-        const newStock = {name: this.state.supplierName, address: this.state.supplierInn};
+        const newStock = {name: this.state.supplierName, address: this.state.supplierAddress};
         baseApi.put(`stocks/${this.editStock.id}/`, newStock)
             .then(res => {
-                his.props.successEditStock(res.data);
+                this.props.successEditStock(res.data);
             }, err => {
                 console.log(err);
             })
@@ -62,7 +62,7 @@ export default class extends React.Component {
                                 </div>
                                 <div>
                                     <div>Адрес склада</div>
-                                    <textarea defaultValue={this.state.supplierInn}
+                                    <textarea defaultValue={this.state.supplierAddress}
                                               className={styles['text-comment-dialog']}
                                               onChange={this.handleChangeStockAddress}/>
                                 </div>

@@ -21,7 +21,7 @@ class StockDetail extends React.Component {
 
     successEditStock = (stock) => {
         this.setState({editStock: !this.state.editStock});
-        this.props.editSupplier(stock);
+        this.props.editStock(stock);
     };
 
     openRemoveStock = () => {
@@ -47,13 +47,13 @@ class StockDetail extends React.Component {
         let changeStock = null;
         if (this.state.editStock) {
             changeStock = <EditStock openEditStock={this.openEditStock}
-                                   successEditStock={this.successEditStock}
-                                   stock={this.props.stock}/>;
+                                     successEditStock={this.successEditStock}
+                                     stock={this.props.stock}/>;
         }
         if (this.state.removeStock) {
             changeStock = <RemoveStock openRemoveStock={this.openRemoveStock}
-                                     successRemoveStock={this.successRemoveStock}
-                                     stockId={this.props.stock.id}/>;
+                                       successRemoveStock={this.successRemoveStock}
+                                       stockId={this.props.stock.id}/>;
         }
         const stock = this.props.stock;
         return (

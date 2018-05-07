@@ -1,11 +1,12 @@
 import {connect} from "react-redux";
 import {addNewStock} from "../../../AC/stocks";
+import styles from './styles.scss';
 
 export class AddNewStock extends React.Component {
 
     state = {
         supplierName: '',
-        supplierInn: ''
+        supplierAddress: ''
     };
 
     constructor(props) {
@@ -17,28 +18,62 @@ export class AddNewStock extends React.Component {
     };
 
     handleChangeStockAddress = event => {
-        this.setState({supplierInn: event.target.value});
+        this.setState({supplierAddress: event.target.value});
     };
 
     handleSubmit = event => {
         event.preventDefault();
-        const newStock = {name: this.state.supplierName, address: this.state.supplierInn};
+        const newStock = {name: this.state.supplierName, address: this.state.supplierAddress};
         this.props.addNewStock(newStock);
+        this.close();
     };
+
+    close() {
+        this.props.openAddStock();
+    }
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <div>
-                    <label>Название склада</label>
-                    <input type="text" name="stockName" onChange={this.handleChangeStockName}/>
+            <div className={["modal show", styles.open].join(' ')}>
+                <div className={["modal-dialog modal-dialog-centered",
+                    styles['modal-dialog']].join(' ')}>
+                    <div className="modal-content">
+                        <form onSubmit={this.handleSubmit}>
+                            <div className="modal-header">
+                                <h5 className="modal-title">Редактирование склада</h5>
+                                <button type="button" className="close" aria-label="Close"
+                                        onClick={this.close.bind(this)}>
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <div>
+                                    <div>Название склада</div>
+                                    <textarea className={styles['text-comment-dialog']}
+                                              onChange={this.handleChangeStockName}/>
+                                </div>
+                                <div>
+                                    <div>Адрес склада</div>
+                                    <textarea className={styles['text-comment-dialog']}
+                                              onChange={this.handleChangeStockAddress}/>
+                                </div>
+                            </div>
+                            <div className="modal-footer">
+                                <button onClick={this.close.bind(this)}
+                                        type="button"
+                                        className="btn btn-secondary">Закрыть
+                                </button>
+                                <button type="submit"
+                                        className="btn btn-primary">Добавить
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div>
-                    <label>Адрес склада</label>
-                    <input type="text" name="stockAddress" onChange={this.handleChangeStockAddress}/>
+                <div className={[styles.modal].join(' ')}
+                     onClick={this.close.bind(this)}>
                 </div>
-                <button type="submit">Добавить</button>
-            </form>
+            </div>
         )
     }
 }

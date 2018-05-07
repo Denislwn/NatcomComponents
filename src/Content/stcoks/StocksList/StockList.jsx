@@ -1,17 +1,16 @@
-import {BaseApi} from "../../../services/base";
 import Stock from "../Stock/index"
 import AddNewStock from "../AddNewStock/AddNewStock"
 import InfiniteScroll from 'react-infinite-scroller';
 import {connect} from "react-redux";
 import {getAllStocks, getNextStocks} from "../../../AC/stocks";
-import {mapToArr} from "../../../helpers";
 import {getStocksSelector} from "../../../selectors/stocksSelector";
+import styles from './styles.scss';
 
 export class StockList extends React.Component {
     stock;
     stocksList;
     state = {
-        newStock: {visibility: false, message: 'Добавить склад'},
+        addStock: false,
     };
 
     constructor(props) {
@@ -26,13 +25,8 @@ export class StockList extends React.Component {
         this.props.getNextStocks(page);
     }
 
-    newStock = () => {
-        if (!this.state.newStock.visibility) {
-            this.state.newStock = {visibility: true, message: 'Удалить'};
-        } else {
-            this.state.newStock = {visibility: false, message: 'Добавить склад'};
-        }
-        this.setState({newStock: this.state.newStock})
+    openAddStock = () => {
+      this.setState({addStock: !this.state.addStock});
     };
 
     ready() {
@@ -49,9 +43,9 @@ export class StockList extends React.Component {
         if (!this.ready()) {
             return false
         }
-        let newStock = null;
-        if (this.state.newStock.visibility) {
-            newStock = <AddNewStock/>;
+        let addStock = null;
+        if (this.state.addStock) {
+            addStock = <AddNewStock openAddStock={this.openAddStock}/>;
         }
         return (
             <InfiniteScroll
@@ -60,18 +54,27 @@ export class StockList extends React.Component {
                 hasMore={this.props.hasMoreStocks}
             >
                 <div>
-                    <span onClick={this.newStock}>{this.state.newStock.message}</span>
-                    {newStock}
-                    <table className="table table-hover">
-                        <thead className="thead-light">
-                            <tr>
-                                <th scope="col">Название</th>
-                                <th scope="col">Адрес</th>
-                                <th scope="col">Статус</th>
-                            </tr>
-                        </thead>
-                        <tbody>{this.stocksList}</tbody>
-                    </table>
+                    {addStock}
+                    <div className="row">
+                        <div className="col-10">
+                            <table className="table table-hover">
+                                <thead className="thead-light">
+                                <tr>
+                                    <th scope="col">Название</th>
+                                    <th scope="col">Адрес</th>
+                                    <th scope="col">Статус</th>
+                                </tr>
+                                </thead>
+                                <tbody>{this.stocksList}</tbody>
+                            </table>
+                        </div>
+                        <div className="col-2">
+                            <button type="button"
+                                    className={["btn btn-primary btn-sm", styles.btn].join(' ')}
+                                    onClick={this.openAddStock}>Добавить склад
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </InfiniteScroll>
         );
