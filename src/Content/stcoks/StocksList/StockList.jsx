@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import {getAllStocks, getNextStocks} from "../../../AC/stocks";
 import {getStocksSelector} from "../../../selectors/stocksSelector";
 import styles from './styles.scss';
+import AddButton from '../../../components/AddButton';
 
 export class StockList extends React.Component {
     stock;
@@ -71,8 +72,7 @@ export class StockList extends React.Component {
                                 </table>
                             </div>
                             <div className="col-2">
-                                <div className={styles["add-button"]}
-                                     onClick={this.openAddStock}>+</div>
+                                <AddButton openAdd={this.openAddStock}/>
                             </div>
                         </div>
                     </InfiniteScroll>
