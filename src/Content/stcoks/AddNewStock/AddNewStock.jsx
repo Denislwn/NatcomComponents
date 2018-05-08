@@ -40,7 +40,7 @@ export class AddNewStock extends React.Component {
                     <div className="modal-content">
                         <form onSubmit={this.handleSubmit}>
                             <div className="modal-header">
-                                <h5 className="modal-title">Редактирование склада</h5>
+                                <h5 className="modal-title">Новый склад</h5>
                                 <button type="button" className="close" aria-label="Close"
                                         onClick={this.close.bind(this)}>
                                     <span aria-hidden="true">&times;</span>

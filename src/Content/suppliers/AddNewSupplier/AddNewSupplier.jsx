@@ -1,5 +1,6 @@
-import {connect} from "react-redux";
-import {addNewSupplier} from "../../../AC/suppliers";
+import {connect} from 'react-redux';
+import {addNewSupplier} from '../../../AC/suppliers';
+import styles from './styles.scss';
 
 class AddNewSupplier extends React.Component {
 
@@ -27,42 +28,80 @@ class AddNewSupplier extends React.Component {
 
     handleSubmit = event => {
         event.preventDefault();
+        const newSupplier = this.getSupplier();
+        this.props.addNewSupplier(newSupplier);
+        this.close();
+    };
+
+    getSupplier() {
         let newSupplier = {
             name: this.state.supplierName,
             inn: this.state.supplierInn,
             comment: this.state.supplierComment,
         };
-        newSupplier = this.checkSupplier(newSupplier);
-        this.props.addNewSupplier(newSupplier);
-    };
+        if (newSupplier.inn === '') {
+            newSupplier.inn = null;
+        }
+        if (newSupplier.comment === '') {
+            newSupplier.comment = null;
+        }
+        return newSupplier;
+    }
 
-    checkSupplier(supplier) {
-        if (supplier.inn === '') {
-            supplier.inn = null;
-        }
-        if (supplier.comment === '') {
-            supplier.comment = null;
-        }
-        return supplier;
+    close() {
+        this.props.openAddSupplier();
     }
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <div>
-                    <label>Имя поставщика</label>
-                    <input ref="form" type="text" name="supplierName" onChange={this.handleChangeSupplierName}/>
+            <div className={["modal show", styles.open].join(' ')}>
+                <div className={["modal-dialog modal-dialog-centered",
+                    styles['modal-dialog']].join(' ')}>
+                    <div className="modal-content">
+                        <form onSubmit={this.handleSubmit}>
+                            <div className="modal-header">
+                                <h5 className="modal-title">Новый поставщик</h5>
+                                <button type="button" className="close" aria-label="Close"
+                                        onClick={this.close.bind(this)}>
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <div className="form-group">
+                                    <label>Имя поставщика</label>
+                                    <input type="text"
+                                           onChange={this.handleChangeSupplierName}
+                                           className="form-control"/>
+                                </div>
+                                <div className="form-group">
+                                    <label>Инн поставщика</label>
+                                    <input type="text"
+                                           onChange={this.handleChangeSupplierInn}
+                                           className="form-control"/>
+                                </div>
+                                <div className="form-group">
+                                    <label>Комментарий</label>
+                                    <textarea className={["form-control",
+                                              styles['text-field-dialog']].join(' ')}
+                                              onChange={this.handleChangeSupplierComment}/>
+                                </div>
+                            </div>
+                            <div className="modal-footer">
+                                <button onClick={this.close.bind(this)}
+                                        type="button"
+                                        className="btn btn-secondary">Закрыть
+                                </button>
+                                <button type="submit"
+                                        className="btn btn-primary">Добавить
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div>
-                    <label>Инн поставщика</label>
-                    <input type="text" name="supplierInn" onChange={this.handleChangeSupplierInn}/>
+                <div className={[styles.modal].join(' ')}
+                     onClick={this.close.bind(this)}>
                 </div>
-                <div>
-                    <label>Комментарий</label>
-                    <input type="text" name="supplierComment" onChange={this.handleChangeSupplierComment}/>
-                </div>
-                <button type="submit">Добавить</button>
-            </form>
+            </div>
         )
     }
 }

@@ -56,8 +56,7 @@ export class StockList extends React.Component {
                         pageStart={1}
                         loadMore={this.loadStocks.bind(this)}
                         hasMore={this.props.hasMoreStocks}
-                        useWindow={false}
-                    >
+                        useWindow={false}>
                         <div className="row">
                             <div className="col-10">
                                 <table className="table table-hover">

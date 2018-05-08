@@ -8,7 +8,8 @@ import {connect} from "react-redux";
 import styles from './styles.scss';
 
 class StocksPage extends React.Component {
-    render() {
+
+    getMenu() {
         let menu = (
             <NavLink to='/stocks'>
                 <span>Склады</span>
@@ -22,6 +23,11 @@ class StocksPage extends React.Component {
                 </div>
             );
         }
+        return menu;
+    }
+
+    render() {
+        const menu = this.getMenu();
         return (
             <div>
                 <div className={styles["stocks-menu"]}>
