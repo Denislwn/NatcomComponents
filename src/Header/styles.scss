@@ -1,9 +1,20 @@
-.active {
-  background-color: aqua;
-  color: red;
-  font-weight: bold;
+.header-container {
+  height: 40px;
+  background-color: #e9ecef;
 }
 
-.nav-bar {
-  position: fixed;
+.company-name {
+  margin-left: 20px;
+  font-size: 24px;
+  color: gray;
+  line-height: 40px;
+}
+
+.element-container {
+  float: right;
+  line-height: 40px;
+}
+
+.user-role {
+  margin-right: 35px;
 }

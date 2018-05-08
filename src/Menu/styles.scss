@@ -1,0 +1,19 @@
+.menu-container {
+  height: calc(100vh - 40px);
+  padding: 0!important;
+  border: 2px solid gray;
+}
+
+.active {
+  background-color: gray;
+  color: #e9ecef;
+  font-weight: bold;
+}
+
+ul li a {
+  color: black;
+}
+
+.nav-bar {
+  overflow: auto;
+}

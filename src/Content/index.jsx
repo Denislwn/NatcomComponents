@@ -1,5 +1,6 @@
 import Switch from "react-router-dom/es/Switch";
 import Route from "react-router-dom/es/Route";
+import styles from './styles.scss';
 
 import Main from "./Main";
 import Login from "./Login";
@@ -17,7 +18,7 @@ export default class extends React.Component {
     render() {
         return (
             <main>
-                <Switch>
+                <Switch className={styles["main-page"]}>
                     <Route exact path='/' component={Main}/>
                     <Route path='/login' component={Login}/>
                     <Route path='/stocks/:stockId' component={StocksPage}/>

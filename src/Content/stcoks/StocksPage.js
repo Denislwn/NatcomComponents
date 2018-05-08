@@ -5,22 +5,28 @@ import NavLink from "react-router-dom/es/NavLink";
 import StocksList from "./StocksList/StockList";
 import StockDetail from "./StockDetail/StockDetail";
 import {connect} from "react-redux";
+import styles from './styles.scss';
 
 class StocksPage extends React.Component {
     render() {
-        let menu = <NavLink to='/stocks'><span>Склады</span></NavLink>;
+        let menu = (
+            <NavLink to='/stocks'>
+                <span>Склады</span>
+            </NavLink>);
         if (this.props.match.params.stockId && this.props.stock !== null) {
-            menu = <div>
-                <NavLink to='/stocks'>
-                    <span>Склады</span>
-                </NavLink>
-                <span> => </span>
-                <span>{this.props.stock.name}</span>
-            </div>
+            menu = (
+                <div>
+                    {menu}
+                    <span> => </span>
+                    <span>{this.props.stock.name}</span>
+                </div>
+            );
         }
         return (
             <div>
-                {menu}
+                <div className={styles["stocks-menu"]}>
+                    {menu}
+                </div>
                 <Switch>
                     <Route exact path='/stocks' component={StocksList}/>
                     <Route path='/stocks/:stockId' component={StockDetail}/>

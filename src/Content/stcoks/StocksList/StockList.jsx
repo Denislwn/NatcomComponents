@@ -26,7 +26,7 @@ export class StockList extends React.Component {
     }
 
     openAddStock = () => {
-      this.setState({addStock: !this.state.addStock});
+        this.setState({addStock: !this.state.addStock});
     };
 
     ready() {
@@ -48,35 +48,36 @@ export class StockList extends React.Component {
             addStock = <AddNewStock openAddStock={this.openAddStock}/>;
         }
         return (
-            <InfiniteScroll
-                pageStart={1}
-                loadMore={this.loadStocks.bind(this)}
-                hasMore={this.props.hasMoreStocks}
-            >
-                <div>
-                    {addStock}
-                    <div className="row">
-                        <div className="col-10">
-                            <table className="table table-hover">
-                                <thead className="thead-light">
-                                <tr>
-                                    <th scope="col">Название</th>
-                                    <th scope="col">Адрес</th>
-                                    <th scope="col">Статус</th>
-                                </tr>
-                                </thead>
-                                <tbody>{this.stocksList}</tbody>
-                            </table>
+            <div className="row">
+                {addStock}
+                <div className={["col-12", styles['main-page']].join(' ')}>
+                    <InfiniteScroll
+                        pageStart={1}
+                        loadMore={this.loadStocks.bind(this)}
+                        hasMore={this.props.hasMoreStocks}
+                        useWindow={false}
+                    >
+                        <div className="row">
+                            <div className="col-10">
+                                <table className="table table-hover">
+                                    <thead className="thead-light">
+                                    <tr>
+                                        <th scope="col">Название</th>
+                                        <th scope="col">Адрес</th>
+                                        <th scope="col">Статус</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>{this.stocksList}</tbody>
+                                </table>
+                            </div>
+                            <div className="col-2">
+                                <div className={styles["add-button"]}
+                                     onClick={this.openAddStock}>+</div>
+                            </div>
                         </div>
-                        <div className="col-2">
-                            <button type="button"
-                                    className={["btn btn-primary btn-sm", styles.btn].join(' ')}
-                                    onClick={this.openAddStock}>Добавить склад
-                            </button>
-                        </div>
-                    </div>
+                    </InfiniteScroll>
                 </div>
-            </InfiniteScroll>
+            </div>
         );
     }
 }
