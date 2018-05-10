@@ -1,6 +1,9 @@
 import {connect} from "react-redux";
 import {editSupplier, getSupplierDetail} from "../../../AC/suppliers";
-import EditSupplier from '../EditSupplier'
+
+import EditSupplier from '../EditSupplier';
+import Loader from '../../../components/Loader';
+import styles from './styles.scss';
 
 class SupplierDetail extends React.Component {
     state = {
@@ -21,25 +24,26 @@ class SupplierDetail extends React.Component {
         this.props.editSupplier(supplier);
     };
 
-
-    ready() {
-        if (this.props.supplier !== null) {
-            return true;
+    getChangeSupplierDialog() {
+        if (this.state.editSupplier) {
+            return (<EditSupplier openEditSupplier={this.openEditSupplier}
+                                  successEditSupplier={this.successEditSupplier}
+                                  supplier={this.props.supplier}/>);
+        } else {
+            return null;
         }
-        return false;
     }
 
     render() {
-        if (!this.ready()) {
-            return false;
+        const {supplier, isLoading} = this.props;
+        if (isLoading || !supplier) {
+            return (
+                <div className={styles["pre-loader-container"]}>
+                    <Loader/>
+                </div>
+            );
         }
-        let changeSupplier = null;
-        if (this.state.editSupplier) {
-            changeSupplier = <EditSupplier openEditSupplier={this.openEditSupplier}
-                                           successEditSupplier={this.successEditSupplier}
-                                           supplier={this.props.supplier}/>;
-        }
-        const supplier = this.props.supplier;
+        const changeSupplier = this.getChangeSupplierDialog();
         return (
             <div>
                 <div>{supplier.name}</div>
@@ -56,5 +60,7 @@ class SupplierDetail extends React.Component {
 }
 
 export default connect((state) => ({
-    supplier: state.suppliers.supplier,
-}), {getSupplierDetail, editSupplier})(SupplierDetail);
+        supplier: state.suppliers.supplier,
+        isLoading: state.suppliers.isLoading
+    }),
+    {getSupplierDetail, editSupplier})(SupplierDetail);

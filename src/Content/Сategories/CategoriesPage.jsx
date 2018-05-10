@@ -1,8 +1,7 @@
+import styles from './styles.scss';
+
 import CategoryList from './CategoriesList/CategoriesList';
-import Subcategory from './subcategories/Subcategory';
-import AddNewSubcategory from './subcategories/AddNewSubcategory';
-import {connect} from "react-redux";
-import {mapToArr} from "../../helpers";
+import SubcategoriesList from './subcategories/SubcategoriesList';
 
 export default class extends React.Component {
 
@@ -41,14 +40,18 @@ export default class extends React.Component {
         //         return <li>{sub.id}</li>
         //     });
         // }
-        console.log('refresh!');
+        let subcategoriesList = null;
+        if (this.props.match.params.categoryId) {
+            subcategoriesList = <SubcategoriesList/>;
+        }
         return (
             <div>
                 <div className="row">
-                    <div className="col-sm-6">
+                    <div className={["col-sm-6", styles["categories-page"]].join(' ')}>
                         <CategoryList history={this.props.history}/>
                     </div>
-                    <div className="col-sm-6">
+                    <div className={["col-sm-6", styles["subcategories-page"]].join(' ')}>
+                        {subcategoriesList}
                         {/*<ul>{subcategories}</ul>*/}
                         {/*<AddNewSubcategory categoryId={this.categoryId}*/}
                                            {/*addNewSubcategory={this.addNewSubcategory}/>*/}
@@ -59,7 +62,3 @@ export default class extends React.Component {
         )
     }
 }
-
-// export default connect((state) => ({
-//     subcategories: mapToArr(state.categories.subcategories)
-// }))(CategoriesPage);

@@ -4,9 +4,10 @@ import {mapToArr} from '../../../helpers';
 import {getAllSuppliers, getNextSuppliers} from '../../../AC/suppliers';
 import styles from './styles.scss';
 
-import Supplier from '../Supplier'
+import Supplier from '../Supplier';
 import AddNewSupplier from '../AddNewSupplier/AddNewSupplier';
 import AddButton from '../../../components/AddButton';
+import Loader from '../../../components/Loader';
 
 class SuppliersList extends React.Component {
     suppliersList;
@@ -31,24 +32,33 @@ class SuppliersList extends React.Component {
         this.setState({addSupplier: !this.state.addSupplier});
     };
 
-    ready() {
-        if (this.props.suppliers !== undefined) {
-            this.suppliersList = this.props.suppliers.map(supplier =>
-                <Supplier key={supplier.id} supplier={supplier} history={this.props.history}/>
-            );
-            return true;
+    getBody(suppliers) {
+        this.suppliersList = suppliers.map(supplier =>
+            <Supplier key={supplier.id} supplier={supplier} history={this.props.history}/>
+        );
+    }
+
+    getNewSupplier() {
+        if (this.state.addSupplier) {
+            return <AddNewSupplier openAddSupplier={this.openAddSupplier}/>;
+        } else {
+            return null;
         }
-        return false;
     }
 
     render() {
-        if (!this.ready()) {
-            return false;
+        const {isLoading, suppliers, hasMoreSuppliers} = this.props;
+        if (isLoading || !suppliers) {
+            return (
+                <div className={styles["pre-loader-container"]}>
+                    <Loader/>
+                </div>
+            );
         }
-        let newSupplier = null;
-        if (this.state.addSupplier) {
-            newSupplier = <AddNewSupplier openAddSupplier={this.openAddSupplier}/>;
-        }
+        const loader = hasMoreSuppliers ? <Loader/> : false;
+        this.getBody(suppliers);
+        const newSupplier = this.getNewSupplier();
+        console.log(this.suppliersList.length);
         return (
             <div className="row">
                 {newSupplier}
@@ -56,7 +66,7 @@ class SuppliersList extends React.Component {
                     <InfiniteScroll
                         pageStart={1}
                         loadMore={this.loadSuppliers.bind(this)}
-                        hasMore={this.props.hasMoreSuppliers}
+                        hasMore={hasMoreSuppliers}
                         useWindow={false}>
                         <div className="row">
                             <div className="col-10">
@@ -70,6 +80,7 @@ class SuppliersList extends React.Component {
                                     </thead>
                                     <tbody>{this.suppliersList}</tbody>
                                 </table>
+                                {loader}
                             </div>
                             <div className="col-2">
                                 <AddButton openAdd={this.openAddSupplier}/>
@@ -83,6 +94,8 @@ class SuppliersList extends React.Component {
 }
 
 export default connect((state) => ({
-    suppliers: mapToArr(state.suppliers.suppliers),
-    hasMoreSuppliers: state.suppliers.hasMoreSuppliers
-}), {getAllSuppliers, getNextSuppliers})(SuppliersList);
+        suppliers: mapToArr(state.suppliers.suppliers),
+        isLoading: state.suppliers.isLoading,
+        hasMoreSuppliers: state.suppliers.hasMoreSuppliers
+    }),
+    {getAllSuppliers, getNextSuppliers})(SuppliersList);

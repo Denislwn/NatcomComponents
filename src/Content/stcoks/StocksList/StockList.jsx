@@ -1,11 +1,13 @@
-import Stock from "../Stock/index"
-import AddNewStock from "../AddNewStock/AddNewStock"
 import InfiniteScroll from 'react-infinite-scroller';
 import {connect} from "react-redux";
 import {getAllStocks, getNextStocks} from "../../../AC/stocks";
 import {getStocksSelector} from "../../../selectors/stocksSelector";
 import styles from './styles.scss';
+
+import Stock from "../Stock/index"
+import AddNewStock from "../AddNewStock/AddNewStock"
 import AddButton from '../../../components/AddButton';
+import Loader from '../../../components/Loader';
 
 export class StockList extends React.Component {
     stock;
@@ -30,24 +32,32 @@ export class StockList extends React.Component {
         this.setState({addStock: !this.state.addStock});
     };
 
-    ready() {
-        if (this.props.stocks !== undefined) {
-            this.stocksList = this.props.stocks.map(stock =>
-                <Stock key={stock.id} stock={stock} history={this.props.history}/>
-            );
-            return true;
+    getBody(stocks) {
+        this.stocksList = stocks.map(stock =>
+            <Stock key={stock.id} stock={stock} history={this.props.history}/>
+        );
+    }
+
+    getNewStock() {
+        if (this.state.addStock) {
+            return <AddNewStock openAddStock={this.openAddStock}/>;
+        } else {
+            return null;
         }
-        return false;
     }
 
     render() {
-        if (!this.ready()) {
-            return false
+        const {isLoading, stocks, hasMoreStocks} = this.props;
+        if (isLoading || !stocks) {
+            return (
+                <div className={styles["pre-loader-container"]}>
+                    <Loader/>
+                </div>
+            );
         }
-        let addStock = null;
-        if (this.state.addStock) {
-            addStock = <AddNewStock openAddStock={this.openAddStock}/>;
-        }
+        const loader = hasMoreStocks ? <Loader/> : false;
+        this.getBody(stocks);
+        let addStock = this.getNewStock();
         return (
             <div className="row">
                 {addStock}
@@ -55,7 +65,7 @@ export class StockList extends React.Component {
                     <InfiniteScroll
                         pageStart={1}
                         loadMore={this.loadStocks.bind(this)}
-                        hasMore={this.props.hasMoreStocks}
+                        hasMore={hasMoreStocks}
                         useWindow={false}>
                         <div className="row">
                             <div className="col-10">
@@ -69,6 +79,7 @@ export class StockList extends React.Component {
                                     </thead>
                                     <tbody>{this.stocksList}</tbody>
                                 </table>
+                                {loader}
                             </div>
                             <div className="col-2">
                                 <AddButton openAdd={this.openAddStock}/>
@@ -83,5 +94,7 @@ export class StockList extends React.Component {
 
 export default connect((state) => ({
     stocks: getStocksSelector(state),
-    hasMoreStocks: state.stocks.hasMoreStocks
+    hasMoreStocks: state.stocks.hasMoreStocks,
+    isLoading: state.stocks.isLoading,
+    loaded: state.stocks.loaded
 }), {getAllStocks, getNextStocks})(StockList);

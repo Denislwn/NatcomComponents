@@ -1,8 +1,10 @@
-import {BaseApi} from '../../../services/base';
-import EditStock from '../EditStock';
-import RemoveStock from '../RemoveStock';
 import {connect} from "react-redux";
 import {editStock, getStockDetail} from "../../../AC/stocks";
+
+import styles from './styles.scss';
+import EditStock from '../EditStock';
+import RemoveStock from '../RemoveStock';
+import Loader from '../../../components/Loader';
 
 class StockDetail extends React.Component {
     state = {
@@ -33,29 +35,30 @@ class StockDetail extends React.Component {
         this.props.history.push(`/stocks`);
     };
 
-    ready() {
-        if (this.props.stock !== null) {
-            return true;
+    getChangeStockDialog() {
+        if (this.state.editStock) {
+            return <EditStock openEditStock={this.openEditStock}
+                              successEditStock={this.successEditStock}
+                              stock={this.props.stock}/>;
+        } else if (this.state.removeStock) {
+            return <RemoveStock openRemoveStock={this.openRemoveStock}
+                                successRemoveStock={this.successRemoveStock}
+                                stockId={this.props.stock.id}/>;
+        } else {
+            return null;
         }
-        return false;
     }
 
     render() {
-        if (!this.ready()) {
-            return false;
+        const {stock, isLoading} = this.props;
+        if (isLoading || !stock) {
+            return (
+                <div className={styles["pre-loader-container"]}>
+                    <Loader/>
+                </div>
+            );
         }
-        let changeStock = null;
-        if (this.state.editStock) {
-            changeStock = <EditStock openEditStock={this.openEditStock}
-                                     successEditStock={this.successEditStock}
-                                     stock={this.props.stock}/>;
-        }
-        if (this.state.removeStock) {
-            changeStock = <RemoveStock openRemoveStock={this.openRemoveStock}
-                                       successRemoveStock={this.successRemoveStock}
-                                       stockId={this.props.stock.id}/>;
-        }
-        const stock = this.props.stock;
+        const changeStock = this.getChangeStockDialog();
         return (
             <div>
                 <div>{stock.name}</div>
@@ -76,4 +79,5 @@ class StockDetail extends React.Component {
 
 export default connect((state) => ({
     stock: state.stocks.stock,
+    isLoading: state.stocks.isLoading,
 }), {getStockDetail, editStock})(StockDetail);

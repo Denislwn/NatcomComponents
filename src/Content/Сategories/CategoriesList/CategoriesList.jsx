@@ -30,16 +30,15 @@ class CategoriesList extends React.Component {
     //     });
     // };
 
-    sub(categoryId) {
+    getSubcategories(categoryId) {
         this.props.getSubcategories(categoryId);
-        console.log(this.props.history);
         this.props.history.push(`/categories/${categoryId}`);
     };
 
     ready() {
         if (this.props.categories !== undefined) {
             this.categoriesList = this.props.categories.map(category =>
-                <div onClick={this.sub.bind(this, category.id)}
+                <div onClick={this.getSubcategories.bind(this, category.id)}
                      key={category.id}>
                     <Category category={category}
                               history={this.props.history}/>
