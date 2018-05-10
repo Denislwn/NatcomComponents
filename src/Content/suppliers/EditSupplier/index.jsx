@@ -74,22 +74,23 @@ export default class extends React.Component {
                                 </button>
                             </div>
                             <div className="modal-body">
-                                <div>
-                                    <div>Название поставщика</div>
-                                    <textarea defaultValue={this.state.supplierName}
-                                              className={styles['text-comment-dialog']}
-                                              onChange={this.handleChangeSupplierName}/>
+                                <div className="form-group">
+                                    <label>Название поставщика</label>
+                                    <input defaultValue={this.state.supplierName}
+                                           className={"form-control"}
+                                           onChange={this.handleChangeSupplierName}/>
                                 </div>
-                                <div>
-                                    <div>ИНН</div>
-                                    <textarea defaultValue={this.state.supplierInn}
-                                              className={styles['text-comment-dialog']}
-                                              onChange={this.handleChangeSupplierInn}/>
+                                <div className="form-group">
+                                    <label>ИНН</label>
+                                    <input defaultValue={this.state.supplierInn}
+                                           className={"form-control"}
+                                           onChange={this.handleChangeSupplierInn}/>
                                 </div>
-                                <div>
-                                    <div>Комментарий</div>
+                                <div className="form-group">
+                                    <label>Комментарий</label>
                                     <textarea defaultValue={this.state.supplierComment}
-                                              className={styles['text-comment-dialog']}
+                                              className={["form-control",
+                                                  styles['text-field-dialog']].join(' ')}
                                               onChange={this.handleChangeSupplierComment}/>
                                 </div>
                             </div>

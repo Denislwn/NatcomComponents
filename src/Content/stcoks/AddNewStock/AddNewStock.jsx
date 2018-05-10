@@ -47,14 +47,16 @@ export class AddNewStock extends React.Component {
                                 </button>
                             </div>
                             <div className="modal-body">
-                                <div>
-                                    <div>Название склада</div>
-                                    <textarea className={styles['text-comment-dialog']}
+                                <div className="form-group">
+                                    <label>Название склада</label>
+                                    <textarea className={["form-control",
+                                        styles['text-field-dialog']].join(' ')}
                                               onChange={this.handleChangeStockName}/>
                                 </div>
-                                <div>
-                                    <div>Адрес склада</div>
-                                    <textarea className={styles['text-comment-dialog']}
+                                <div className="form-group">
+                                    <label>Адрес склада</label>
+                                    <textarea className={["form-control",
+                                        styles['text-field-dialog']].join(' ')}
                                               onChange={this.handleChangeStockAddress}/>
                                 </div>
                             </div>

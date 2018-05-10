@@ -54,16 +54,18 @@ export default class extends React.Component {
                                 </button>
                             </div>
                             <div className="modal-body">
-                                <div>
-                                    <div>Название склада</div>
+                                <div className="form-group">
+                                    <label>Название склада</label>
                                     <textarea defaultValue={this.state.supplierName}
-                                              className={styles['text-comment-dialog']}
+                                              className={["form-control",
+                                                  styles['text-field-dialog']].join(' ')}
                                               onChange={this.handleChangeStockName}/>
                                 </div>
-                                <div>
-                                    <div>Адрес склада</div>
+                                <div className="form-group">
+                                    <label>Адрес склада</label>
                                     <textarea defaultValue={this.state.supplierAddress}
-                                              className={styles['text-comment-dialog']}
+                                              className={["form-control",
+                                                  styles['text-field-dialog']].join(' ')}
                                               onChange={this.handleChangeStockAddress}/>
                                 </div>
                             </div>
