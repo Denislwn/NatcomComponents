@@ -58,7 +58,6 @@ class SuppliersList extends React.Component {
         const loader = hasMoreSuppliers ? <Loader/> : false;
         this.getBody(suppliers);
         const newSupplier = this.getNewSupplier();
-        console.log(this.suppliersList.length);
         return (
             <div className="row">
                 {newSupplier}

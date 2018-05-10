@@ -1,11 +1,11 @@
 import {connect} from 'react-redux';
-import {mapToArr} from '../../../helpers';
 import {getAllCategories, getSubcategories} from '../../../AC/categories';
+import {getCategoriesSelector} from "../../../selectors/categoriesSelector";
+import styles from './styles.scss';
 
 import Category from './Category';
 import AddNewCategory from './AddNewCategory';
-import {getCategoriesSelector} from "../../../selectors/categoriesSelector";
-import NavLink from "react-router-dom/es/NavLink";
+import Loader from '../../../components/Loader';
 
 class CategoriesList extends React.Component {
     categoriesList = [];
@@ -35,20 +35,6 @@ class CategoriesList extends React.Component {
         this.props.history.push(`/categories/${categoryId}`);
     };
 
-    ready() {
-        if (this.props.categories !== undefined) {
-            this.categoriesList = this.props.categories.map(category =>
-                <div onClick={this.getSubcategories.bind(this, category.id)}
-                     key={category.id}>
-                    <Category category={category}
-                              history={this.props.history}/>
-                </div>
-            );
-            return true;
-        }
-        return false;
-    }
-
     newCategory = () => {
         if (!this.state.newCategory.visibility) {
             this.state.newCategory = {visibility: true, message: 'Удалить'};
@@ -58,10 +44,26 @@ class CategoriesList extends React.Component {
         this.setState({newCategory: this.state.newCategory})
     };
 
+    getBody(categories) {
+        this.categoriesList = categories.map(category => (
+            <div onClick={this.getSubcategories.bind(this, category.id)}
+                 key={category.id}>
+                <Category category={category}
+                          history={this.props.history}/>
+            </div>)
+        );
+    }
+
     render() {
-        if (!this.ready()) {
-            return false
+        const {isLoading, categories, hasMoreCategories} = this.props;
+        if (isLoading || !categories) {
+            return (
+                <div className={styles["pre-loader-container"]}>
+                    <Loader/>
+                </div>
+            );
         }
+        this.getBody(categories);
         let newCategory = null;
         if (this.state.newCategory.visibility) {
             newCategory = <AddNewCategory addNewCategory={this.addNewCategory}/>
@@ -82,5 +84,6 @@ class CategoriesList extends React.Component {
 
 export default connect((state) => ({
     categories: getCategoriesSelector(state),
-    hasMoreCategories: state.categories.hasMoreEntries
+    hasMoreCategories: state.categories.hasMoreEntries,
+    isLoading: state.categories.isLoading
 }), {getAllCategories, getSubcategories})(CategoriesList);

@@ -33,17 +33,16 @@ export default class extends React.Component {
     //     )
     // };
 
-    render() {
-        // let subcategories = null;
-        // if (this.props.subcategories !== []) {
-        //     subcategories = this.props.subcategories.map(sub => {
-        //         return <li>{sub.id}</li>
-        //     });
-        // }
-        let subcategoriesList = null;
+    getSubcategoriesList() {
         if (this.props.match.params.categoryId) {
-            subcategoriesList = <SubcategoriesList/>;
+            return <SubcategoriesList/>;
+        } else {
+            return 'Выберите категорию';
         }
+    }
+
+    render() {
+        const subcategoriesList = this.getSubcategoriesList();
         return (
             <div>
                 <div className="row">
@@ -52,10 +51,6 @@ export default class extends React.Component {
                     </div>
                     <div className={["col-sm-6", styles["subcategories-page"]].join(' ')}>
                         {subcategoriesList}
-                        {/*<ul>{subcategories}</ul>*/}
-                        {/*<AddNewSubcategory categoryId={this.categoryId}*/}
-                                           {/*addNewSubcategory={this.addNewSubcategory}/>*/}
-                        {/*{this.state.subcategories}*/}
                     </div>
                 </div>
             </div>
