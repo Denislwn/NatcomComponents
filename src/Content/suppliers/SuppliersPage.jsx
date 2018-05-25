@@ -6,6 +6,7 @@ import styles from './styles.scss';
 
 import SuppliersList from "./SuppliersList/SuppliersList";
 import SupplierDetail from "./SupplierDetail/SupplierDetail";
+import ComponentMenu from './../../components/ComponentMenu';
 
 class SupplierPage extends React.Component {
 
@@ -17,11 +18,7 @@ class SupplierPage extends React.Component {
         );
         if (this.props.match.params.supplierId && this.props.supplier !== null) {
             menu = (
-                <div>
-                    {menu}
-                    <span> => </span>
-                    <span>{this.props.supplier.name}</span>
-                </div>
+                <ComponentMenu menu={menu} name={this.props.supplier.name}/>
             );
         }
         return menu;

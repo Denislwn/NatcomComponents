@@ -3,14 +3,29 @@ import {mapToArr} from "../../../helpers";
 import styles from './styles.scss';
 
 import Loader from '../../../components/Loader';
+import Subcategory from './Subcategory';
 
 class SubcategoriesList extends React.Component {
+    subcategoriesList;
 
     getBody(subcategories) {
         if (subcategories.length > 0) {
-            return subcategories.map(sub => {
-                return <div key={sub.id}>{sub.name}</div>
-            });
+            console.log(subcategories);
+            this.subcategoriesList = subcategories.map(subcategory => (
+                <tr key={subcategory.id}>
+                    <Subcategory subcategory={subcategory}/>
+                </tr>)
+            );
+            return (
+                <table className="table table-hover">
+                    <thead className="thead-light">
+                    <tr>
+                        <th scope="col">Название подкатегории</th>
+                    </tr>
+                    </thead>
+                    <tbody>{this.subcategoriesList}</tbody>
+                </table>
+            );
         } else {
             return <span>Подкатегории отсутвуют</span>;
         }
@@ -18,7 +33,6 @@ class SubcategoriesList extends React.Component {
 
     render() {
         const {isLoading, subcategories} = this.props;
-        let subs = this.getBody(subcategories);
         if (isLoading || !subcategories) {
             return (
                 <div className={styles["pre-loader-container"]}>
@@ -26,8 +40,9 @@ class SubcategoriesList extends React.Component {
                 </div>
             );
         }
+        let currentSubcategories = this.getBody(subcategories);
         return (
-            <div>{subs}</div>
+            <div>{currentSubcategories}</div>
         )
     }
 }

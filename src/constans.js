@@ -13,6 +13,9 @@ export const EDIT_SUPPLIER = 'EDIT_SUPPLIER';
 export const GET_ALL_CATEGORIES = 'GET_ALL_CATEGORIES';
 export const GET_SUBCATEGORIES = 'GET_SUBCATEGORIES';
 
+export const GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS';
+export const GET_NEXT_PRODUCTS = 'GET_NEXT_PRODUCTS';
+
 export const START = '_START';
 export const SUCCESS = '_SUCCESS';
 export const FAIL = '_FAIL';

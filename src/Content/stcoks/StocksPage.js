@@ -1,10 +1,11 @@
 import Switch from "react-router-dom/es/Switch";
 import Route from "react-router-dom/es/Route";
 import NavLink from "react-router-dom/es/NavLink";
+import {connect} from "react-redux";
 
 import StocksList from "./StocksList/StockList";
 import StockDetail from "./StockDetail/StockDetail";
-import {connect} from "react-redux";
+import ComponentMenu from '../../components/ComponentMenu'
 import styles from './styles.scss';
 
 class StocksPage extends React.Component {
@@ -16,11 +17,7 @@ class StocksPage extends React.Component {
             </NavLink>);
         if (this.props.match.params.stockId && this.props.stock !== null) {
             menu = (
-                <div>
-                    {menu}
-                    <span> => </span>
-                    <span>{this.props.stock.name}</span>
-                </div>
+                <ComponentMenu menu={menu} name={this.props.stock.name}/>
             );
         }
         return menu;

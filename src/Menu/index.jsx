@@ -23,6 +23,10 @@ export default class extends React.Component {
                             <NavLink to='/categories' activeClassName={styles.active}
                                      className="nav-link active">Категории</NavLink>
                         </li>
+                        <li className="nav-item">
+                            <NavLink to='/products' activeClassName={styles.active}
+                                     className="nav-link active">Товары</NavLink>
+                        </li>
                     </ul>
                 </header>
             </div>

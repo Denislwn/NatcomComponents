@@ -46,11 +46,12 @@ class CategoriesList extends React.Component {
 
     getBody(categories) {
         this.categoriesList = categories.map(category => (
-            <div onClick={this.getSubcategories.bind(this, category.id)}
-                 key={category.id}>
+            <tr onClick={this.getSubcategories.bind(this, category.id)}
+                className={styles["hover-element"]}
+                key={category.id}>
                 <Category category={category}
                           history={this.props.history}/>
-            </div>)
+            </tr>)
         );
     }
 
@@ -74,9 +75,14 @@ class CategoriesList extends React.Component {
                     <span onClick={this.newCategory}>{this.state.newCategory.message}</span>
                     {newCategory}
                 </div>
-                <ul>
-                    {this.categoriesList}
-                </ul>
+                <table className="table table-hover">
+                    <thead className="thead-light">
+                    <tr>
+                        <th scope="col">Название категории</th>
+                    </tr>
+                    </thead>
+                    <tbody>{this.categoriesList}</tbody>
+                </table>
             </div>
         )
     }
