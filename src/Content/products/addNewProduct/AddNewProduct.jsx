@@ -6,6 +6,7 @@ import ProductImages from './ProductImages';
 export class AddNewProduct extends React.Component {
     baseApi = new BaseApi();
     categories = [];
+    subcategories = [];
     units = ['Метр', 'Квадратный метр'];
     stocks = [];
     productStocks = [];
@@ -17,29 +18,38 @@ export class AddNewProduct extends React.Component {
         priceGood: null,
         priceBest: null,
         category: null,
+        subcategory: null,
         harpoon: false,
         stocks: [],
-        prepayment: false
+        prepayment: false,
+        images: [],
     };
 
     componentWillMount() {
         const categoriesPromise = this.baseApi
             .get(`categories/`)
-            .then((categories) => {
-                this.categories = categories.data.results;
+            .then((categoriesPage) => {
+                this.categories = categoriesPage.data.results;
+                return this.baseApi
+                    .get(`categories/${this.categories[0].id}/subcategories/`);
+            })
+            .then((subcategoriesPage) => {
+                this.subcategories = subcategoriesPage.data.results;
             });
         const stocksPromise = this.baseApi
             .get(`stocks/`)
-            .then((stocks) => {
-                this.stocks = stocks.data.results;
+            .then((stocksPage) => {
+                this.stocks = stocksPage.data.results;
             });
         Promise.all([categoriesPromise, stocksPromise])
             .then(() => {
+                    console.log(this.subcategories);
                     let stocksState = [];
                     stocksState.push({stock: this.stocks[0].id});
                     this.productStocks = stocksState;
                     this.setState({
-                        category: this.categories[0].id
+                        category: this.categories[0].id,
+                        subcategory: this.subcategories[0].id
                     });
                 }
             );
@@ -60,7 +70,21 @@ export class AddNewProduct extends React.Component {
 
 
     handleChangeProductCategory = event => {
-        this.setState({category: Number(event.target.value)});
+        const categoryId = event.target.value;
+        this.baseApi
+            .get(`categories/${categoryId}/subcategories/`)
+            .then((subcategoriesPage) => {
+                this.subcategories = subcategoriesPage.data.results;
+                const subcategoryId = this.subcategories.length > 0 ? this.subcategories[0].id : null;
+                this.setState({
+                    category: Number(categoryId),
+                    subcategory: subcategoryId
+                });
+            });
+    };
+
+    handleChangeProductSubcategory = event => {
+        this.setState({subcategory: Number(event.target.value)});
     };
 
     handleChangeProductHarpoon = event => {
@@ -73,6 +97,10 @@ export class AddNewProduct extends React.Component {
 
     addProductStocks = (stocks) => {
         this.productStocks = stocks;
+    };
+
+    handleProductImages = (images) => {
+        this.setState({images});
     };
 
     handleSubmit = event => {
@@ -103,30 +131,66 @@ export class AddNewProduct extends React.Component {
     getPricesFields() {
         return (
             <div className="row">
-                    <div className="col-4 form-group">
-                        <label htmlFor="standardPrice">Стандартная цена</label>
-                        <input type="text"
-                               onChange={(e) => this.handleChangeProductPrice(e, 'priceStandard')}
-                               className="form-control"
-                               id="standardPrice"
-                               placeholder="Введите цену"/>
-                    </div>
-                    <div className="col-4 form-group">
-                        <label htmlFor="goodPrice">Хорошая цена</label>
-                        <input type="text"
-                               onChange={(e) => this.handleChangeProductPrice(e, 'priceGood')}
-                               className="form-control"
-                               id="goodPrice"
-                               placeholder="Введите цену"/>
-                    </div>
-                    <div className="col-4 form-group">
-                        <label htmlFor="bestPrice">Отличная цена</label>
-                        <input type="text"
-                               onChange={(e) => this.handleChangeProductPrice(e, 'priceBest')}
-                               className="form-control"
-                               id="bestPrice"
-                               placeholder="Введите цену"/>
-                    </div>
+                <div className="col-4 form-group">
+                    <label htmlFor="standardPrice">Стандартная цена</label>
+                    <input type="text"
+                           onChange={(e) => this.handleChangeProductPrice(e, 'priceStandard')}
+                           className="form-control"
+                           id="standardPrice"
+                           placeholder="Введите цену"/>
+                </div>
+                <div className="col-4 form-group">
+                    <label htmlFor="goodPrice">Хорошая цена</label>
+                    <input type="text"
+                           onChange={(e) => this.handleChangeProductPrice(e, 'priceGood')}
+                           className="form-control"
+                           id="goodPrice"
+                           placeholder="Введите цену"/>
+                </div>
+                <div className="col-4 form-group">
+                    <label htmlFor="bestPrice">Отличная цена</label>
+                    <input type="text"
+                           onChange={(e) => this.handleChangeProductPrice(e, 'priceBest')}
+                           className="form-control"
+                           id="bestPrice"
+                           placeholder="Введите цену"/>
+                </div>
+            </div>
+        )
+    }
+
+    getCategories() {
+        let subs = null;
+        if (this.state.subcategory) {
+            console.log('zfas');
+            subs = (
+                <div className="col-6 form-group">
+                    <label>Подкатегория</label>
+                    <select className="form-control"
+                            onChange={this.handleChangeProductSubcategory}
+                            defaultValue={this.state.subcategory}>
+                        {this.subcategories.map(subcategory => (
+                            <option value={subcategory.id}
+                                    key={subcategory.id}>{subcategory.name}</option>
+                        ))}
+                    </select>
+                </div>
+            )
+        }
+        return (
+            <div className="row">
+                <div className="col-6 form-group">
+                    <label>Категория</label>
+                    <select className="form-control"
+                            onChange={this.handleChangeProductCategory}
+                            defaultValue={this.state.category}>
+                        {this.categories.map(category => (
+                            <option value={category.id}
+                                    key={category.id}>{category.name}</option>
+                        ))}
+                    </select>
+                </div>
+                {subs}
             </div>
         )
     }
@@ -155,17 +219,7 @@ export class AddNewProduct extends React.Component {
                     </div>
                 </div>
                 {this.getPricesFields()}
-                <div className="form-group">
-                    <label>Категория</label>
-                    <select className="form-control"
-                            onChange={this.handleChangeProductCategory}
-                            defaultValue={this.state.category}>
-                        {this.categories.map(category => (
-                            <option value={category.id}
-                                    key={category.id}>{category.name}</option>
-                        ))}
-                    </select>
-                </div>
+                {this.getCategories()}
                 <div className="form-group form-check">
                     <input type="checkbox"
                            onChange={this.handleChangeProductHarpoon}
@@ -184,7 +238,7 @@ export class AddNewProduct extends React.Component {
                 </div>
                 <AddStocksForProduct stocks={this.stocks}
                                      addProductStocks={this.addProductStocks}/>
-                <ProductImages/>
+                <ProductImages handleProductImages={this.handleProductImages}/>
                 <button type="submit"
                         className="btn btn-primary">Submit
                 </button>

@@ -13,8 +13,21 @@ export default class extends React.Component {
 
     addStock() {
         let stocksState = this.state.stocks;
-        stocksState.push({stock: 11});
-        this.setProductState(stocksState);
+        const {stocks} = this.props;
+        for (const stock of stocks) {
+            let count = 0;
+            for (const stockState of stocksState) {
+                if (stock.id === stockState.stock) {
+                    count++;
+                    break;
+                }
+            }
+            if (count === 0) {
+                stocksState.push({stock: stock.id});
+                this.setProductState(stocksState);
+                break;
+            }
+        }
     }
 
     removeStock(index) {
@@ -36,6 +49,14 @@ export default class extends React.Component {
                             onClick={this.removeStock.bind(this, index)}>delete</button>
                 </div>
             )
+        }
+    }
+
+    getAddButton() {
+        if (this.state.stocks !== this.props.stocks) {
+            return (<button type="button" onClick={this.addStock.bind(this)}>Add</button>);
+        } else {
+            return null;
         }
     }
 
@@ -80,11 +101,10 @@ export default class extends React.Component {
                 </div>
             )
         );
-        console.log('Перерисовался');
         return (
             <div>
                 {productStocks}
-                <button type="button" onClick={this.addStock.bind(this)}>Add</button>
+                {this.getAddButton()}
             </div>
         )
     }

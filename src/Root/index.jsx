@@ -1,25 +1,18 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import styles from './styles.scss'
+import Switch from "react-router-dom/es/Switch";
+import Route from "react-router-dom/es/Route";
 
-import Header from '../Header';
-import Menu from "../Menu";
-import Content from "../Content"
+import System from '../System';
+import Login from "../Content/Login";
 
 
 export default class extends React.Component {
     render() {
         return (
-            <div>
-                <div className={["row", styles["main-row"]].join(' ')}>
-                    <Header/>
-                </div>
-                <div className={["row", styles["main-row"]].join(' ')}>
-                    <Menu/>
-                    <div className="col-sm-10">
-                        <Content/>
-                    </div>
-                </div>
-            </div>
+            <Switch>
+                <Route path='/login' component={Login}/>
+                <Route path='' component={System}/>
+            </Switch>
         )
 
     }

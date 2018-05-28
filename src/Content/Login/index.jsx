@@ -1,4 +1,5 @@
 import axios from 'axios';
+import styles from './styles.scss';
 
 export default class extends React.Component {
 
@@ -38,19 +39,44 @@ export default class extends React.Component {
             })
     };
 
+    getDisabledState() {
+        if (!this.state.username || !this.state.password) {
+            return true;
+        }
+        return false;
+    }
+
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <div>
-                    <label>Логин</label>
-                    <input ref="form" type="text" name="name" onChange={this.handleChangeUsername}/>
-                </div>
-                <div>
-                    <label>Пароль</label>
-                    <input type="password" name="password" onChange={this.handleChangePassword}/>
-                </div>
-                <button type="submit">Login</button>
-            </form>
+            <div className="container">
+                <form onSubmit={this.handleSubmit}>
+                    <h4 className="text-center">Авторизация</h4>
+                    <div className="form-group row">
+                        <label className="col-sm-2 col-form-label">Логин</label>
+                        <div className="col-sm-10">
+                            <input type="text"
+                                   name="name"
+                                   className="form-control"
+                                   onChange={this.handleChangeUsername}/>
+                        </div>
+                    </div>
+                    <div className="form-group row">
+                        <label className="col-sm-2 col-form-label">Пароль</label>
+                        <div className="col-sm-10">
+                            <input type="password"
+                                   name="password"
+                                   className="form-control"
+                                   onChange={this.handleChangePassword}/>
+                        </div>
+                    </div>
+                    <div className="col-sm-12 text-right">
+                        <button type="submit"
+                                disabled={this.getDisabledState()}
+                                className="btn btn-primary pull-right">Войти
+                        </button>
+                    </div>
+                </form>
+            </div>
         )
 
     }

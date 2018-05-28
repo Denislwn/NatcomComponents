@@ -3,7 +3,6 @@ import Route from "react-router-dom/es/Route";
 import styles from './styles.scss';
 
 import Main from "./Main";
-import Login from "./Login";
 import CategoriesPage from "./Сategories/CategoriesPage";
 import StocksPage from "./stcoks/StocksPage";
 import SuppliersPage from "./suppliers/SuppliersPage";
@@ -13,7 +12,6 @@ export default class extends React.Component {
 
     constructor(props) {
         super(props);
-
     }
 
     render() {
@@ -21,7 +19,6 @@ export default class extends React.Component {
             <main>
                 <Switch className={styles["main-page"]}>
                     <Route exact path='/' component={Main}/>
-                    <Route path='/login' component={Login}/>
                     <Route path='/stocks/:stockId' component={StocksPage}/>
                     <Route path='/stocks' component={StocksPage}/>
                     <Route path='/suppliers/:supplierId' component={SuppliersPage}/>
