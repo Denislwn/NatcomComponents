@@ -43,7 +43,6 @@ export class AddNewProduct extends React.Component {
             });
         Promise.all([categoriesPromise, stocksPromise])
             .then(() => {
-                    console.log(this.subcategories);
                     let stocksState = [];
                     stocksState.push({stock: this.stocks[0].id});
                     this.productStocks = stocksState;
@@ -123,8 +122,10 @@ export class AddNewProduct extends React.Component {
             unit: this.state.unit,
             name: this.state.name,
             category: this.state.category,
+            subcategory: this.state.subcategory,
             price_best: this.state.priceBest,
-            stocks: this.productStocks
+            stocks: this.productStocks,
+            images: this.state.images
         };
     }
 

@@ -49,7 +49,8 @@ export default class extends React.Component {
     render() {
         return (
             <div className="container">
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.handleSubmit}
+                      className={styles["auth-form"]}>
                     <h4 className="text-center">Авторизация</h4>
                     <div className="form-group row">
                         <label className="col-sm-2 col-form-label">Логин</label>

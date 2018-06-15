@@ -1,4 +1,4 @@
-form {
+.auth-form {
   max-width: 440px;
   position: fixed;
   right: 0;
@@ -12,13 +12,13 @@ form {
 
 
 @media (min-width: 576px) {
-  form {
+  .auth-form {
     top: calc(50% - 107px);
   }
 }
 
 @media (max-width: 576px) {
-  form {
+  .auth-form {
     height: 100%;
     overflow: auto;
     border-radius: 0;
